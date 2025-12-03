@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>무선센서 모니터링 · 상태진단 플랫폼</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script
+      type="text/javascript"
+      src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=7ndakwea3l"
+    ></script>
+  </head>
+  <body>
+    <!-- 상단 헤더 -->
+    <header class="app-header">
+      <div class="app-title">
+        <div class="app-title-logo">
+          <img src="img/main-logo.svg" alt="" />
+        </div>
+        <span>무선센서 모니터링 · 상태진단 플랫폼</span>
+      </div>
+      <!-- 중앙: GNB 탭 -->
+      <div class="app-header-gnb">
+        <div class="gnb-tabs">
+          <button onclick="location.href='index.html'" class="gnb-tab">
+            Overview
+          </button>
+          <button onclick="location.href='index2.html'" class="gnb-tab active">
+            Assets
+          </button>
+          <button class="gnb-tab">Diagnostics</button>
+          <button class="gnb-tab">Users</button>
+        </div>
+      </div>
+      <div class="app-header-right">
+        <div class="app-time">
+          <div>2025.08.23</div>
+          <div>01:22:52</div>
+        </div>
+        <div class="app-user">
+          <div class="avatar"><img src="img/user.png" alt=""></div>
+        </div>
+      </div>
+    </header>
+
+    <div class="hr"></div>
+
+    <!-- 헤더 바로 아래 위치 -->
+    <div class="sub-toolbar">
+      <!-- 왼쪽 셀렉트 2개 -->
+      <div class="sub-toolbar-left">
+        <select class="sub-select">
+          <option>부산교통공사 1호선 - 노포차량사업소</option>
+        </select>
+
+        <select class="sub-select">
+          <option>KIT-BUSAN-L1-NOPO-01</option>
+        </select>
+
+        <select class="sub-select">
+          <option>43편성 TC1/M1</option>
+        </select>
+      </div>
+
+      <!-- 오른쪽: 마지막 갱신 / 갱신 버튼 / Live 버튼 -->
+      <div class="sub-toolbar-right">
+        <!-- 기간 선택 바 -->
+        <div class="range-bar">
+          <button class="rb-arrow rb-prev" type="button" aria-label="이전 기간">
+            <img src="/img/btn-prev.svg" alt="" />
+          </button>
+          <div class="rb-divider"></div>
+
+          <div class="rb-range">
+            <!-- 시작 구간 -->
+            <button
+              class="rb-range-part rb-start"
+              id="rbStartBtn"
+              type="button"
+            >
+              <span id="rbStartDate">2025.11.17</span>
+              <span class="rb-range-time" id="rbStartTime">00:00</span>
+            </button>
+
+            <span class="rb-range-separator"> ~ </span>
+
+            <!-- 종료 구간 -->
+            <button class="rb-range-part rb-end" id="rbEndBtn" type="button">
+              <span id="rbEndDate">2025.11.17</span>
+              <span class="rb-range-time" id="rbEndTime">23:59</span>
+            </button>
+
+            <!-- 숨겨진 datetime-local 입력 (시작/종료용) -->
+            <input
+              type="datetime-local"
+              id="rbStartInput"
+              class="rb-range-input"
+            />
+            <input
+              type="datetime-local"
+              id="rbEndInput"
+              class="rb-range-input"
+            />
+          </div>
+
+          <!-- <div class="rb-divider"></div> -->
+
+          <!-- 기간 단위 선택 (1일 / 1주 / 1달 / 3개월 / 6개월) -->
+          <div class="rb-period">
+            <button class="rb-period-btn" id="rbPeriodBtn" type="button">
+              <span id="rbPeriodLabel">1일</span>
+              <img src="img/btn-select.svg" alt="" class="rb-period-icon" />
+            </button>
+
+            <ul class="rb-period-menu" id="rbPeriodMenu">
+              <li data-period="1d">1일</li>
+              <li data-period="1w">1주</li>
+              <li data-period="1m">1개월</li>
+              <li data-period="3m">3개월</li>
+              <li data-period="6m">6개월</li>
+            </ul>
+          </div>
+
+          <div class="rb-divider"></div>
+
+          <!-- 캘린더 버튼 + 숨겨진 date input -->
+          <button
+            class="rb-calendar"
+            id="rbCalendarBtn"
+            type="button"
+            aria-label="날짜 선택"
+          >
+            <!-- 아이콘은 적당히 교체해서 사용 -->
+            <span class="rb-calendar-icon"
+              ><img src="img/icon_date.svg" alt=""
+            /></span>
+            <input type="date" id="rbDateInput" class="rb-date-input" />
+          </button>
+          <div class="rb-divider"></div>
+
+          <button class="rb-arrow rb-next" type="button" aria-label="다음 기간">
+            <img src="/img/btn-next.svg" alt="" />
+          </button>
+        </div>
+
+        <button class="live-btn" id="liveBtn" type="button">
+          <img src="img/play.svg" alt="" />
+          Live
+        </button>
+      </div>
+    </div>
+
+    <!-- 메인 -->
+    <main class="app-main bottom-no-padding">
+      <!-- 자산(Assets) 페이지 레이아웃 -->
+      <section class="assets-layout">
+        <!-- 상단 열차 레이아웃 -->
+        <div class="assets-row assets-row--train">
+          <article class="card train-card no-padding no-bg no-shadow">
+            <div class="card-body">
+              <div class="train-map">
+                <div class="sensors_hover">
+                  <!-- TC1 위 센서들 -->
+                  <!-- 진동2개 -->
+                  <div
+                    class="sensor-chip sensor-chip--vib"
+                    style="--x: 35; --y: 17"
+                    aria-label="M1 진동 센서"
+                  >
+                    <div class="sensor-tooltip">
+                      <div class="sensor-tooltip-content">
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">센서ID</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div
+                            class="sensor-tooltip-value sensor-tooltip-value--strong"
+                          >
+                            VIB-02213
+                          </div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">타입</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">진동</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">배터리</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">72%</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">RSSI</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">-67 dBm</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">최근수신</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div
+                            class="sensor-tooltip-value sensor-tooltip-value--strong"
+                          >
+                            2025.11.09 - 12:00:03
+                          </div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">설치위치</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">대차 1 축상 우</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    class="sensor-chip sensor-chip--vib"
+                    style="--x: 37; --y: 17"
+                    aria-label="M1 진동 센서"
+                  >
+                    <div class="sensor-tooltip">
+                      <div class="sensor-tooltip-content">
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">센서ID</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div
+                            class="sensor-tooltip-value sensor-tooltip-value--strong"
+                          >
+                            VIB-02213
+                          </div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">타입</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">진동</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">배터리</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">72%</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">RSSI</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">-67 dBm</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">최근수신</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div
+                            class="sensor-tooltip-value sensor-tooltip-value--strong"
+                          >
+                            2025.11.09 - 12:00:03
+                          </div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">설치위치</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">대차 1 축상 우</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 진동2개 -->
+
+                  <!-- TC1 상단우측 온도 센서 -->
+                  <div
+                    class="sensor-chip sensor-chip--temp"
+                    style="--x: 42; --y: 19.5"
+                    aria-label="M1 온도 센서"
+                  >
+                    <div class="sensor-tooltip">
+                      <div class="sensor-tooltip-content">
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">센서ID</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div
+                            class="sensor-tooltip-value sensor-tooltip-value--strong"
+                          >
+                            VIB-02213
+                          </div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">타입</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">진동</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">배터리</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">72%</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">RSSI</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">-67 dBm</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">최근수신</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div
+                            class="sensor-tooltip-value sensor-tooltip-value--strong"
+                          >
+                            2025.11.09 - 12:00:03
+                          </div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">설치위치</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">대차 1 축상 우</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- TC1 상단우측 온도 센서 -->
+
+                  <!-- TC1 하단 진동, 온도 센서 sensor-chip--reverse 시 역으로 열림-->
+                  <div
+                    class="sensor-chip sensor-chip--vib"
+                    style="--x: 40; --y: 74"
+                    aria-label="M1 진동 센서"
+                  >
+                    <div class="sensor-tooltip">
+                      <div class="sensor-tooltip-content">
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">센서ID</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div
+                            class="sensor-tooltip-value sensor-tooltip-value--strong"
+                          >
+                            VIB-02213
+                          </div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">타입</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">진동</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">배터리</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">72%</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">RSSI</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">-67 dBm</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">최근수신</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div
+                            class="sensor-tooltip-value sensor-tooltip-value--strong"
+                          >
+                            2025.11.09 - 12:00:03
+                          </div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">설치위치</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">대차 1 축상 우</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    class="sensor-chip sensor-chip--temp"
+                    style="--x: 42; --y: 74"
+                    aria-label="M1 온도 센서"
+                  >
+                    <div class="sensor-tooltip">
+                      <div class="sensor-tooltip-content">
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">센서ID</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div
+                            class="sensor-tooltip-value sensor-tooltip-value--strong"
+                          >
+                            VIB-02213
+                          </div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">타입</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">진동</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">배터리</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">72%</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">RSSI</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">-67 dBm</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">최근수신</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div
+                            class="sensor-tooltip-value sensor-tooltip-value--strong"
+                          >
+                            2025.11.09 - 12:00:03
+                          </div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">설치위치</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">대차 1 축상 우</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- TC1 하단 진동, 온도 센서 -->
+
+                  <!-- M1 위 센서들 -->
+
+                  <!-- M1 좌측 상단 온도, 진동 센서 -->
+                  <div
+                    class="sensor-chip sensor-chip--temp"
+                    style="--x: 58; --y: 19.5"
+                    aria-label="M1 온도 센서"
+                  >
+                    <div class="sensor-tooltip">
+                      <div class="sensor-tooltip-content">
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">센서ID</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div
+                            class="sensor-tooltip-value sensor-tooltip-value--strong"
+                          >
+                            VIB-02213
+                          </div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">타입</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">진동</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">배터리</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">72%</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">RSSI</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">-67 dBm</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">최근수신</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div
+                            class="sensor-tooltip-value sensor-tooltip-value--strong"
+                          >
+                            2025.11.09 - 12:00:03
+                          </div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">설치위치</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">대차 1 축상 우</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    class="sensor-chip sensor-chip--vib"
+                    style="--x: 60; --y: 19.5"
+                    aria-label="M1 진동 센서"
+                  >
+                    <div class="sensor-tooltip">
+                      <div class="sensor-tooltip-content">
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">센서ID</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div
+                            class="sensor-tooltip-value sensor-tooltip-value--strong"
+                          >
+                            VIB-02213
+                          </div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">타입</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">진동</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">배터리</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">72%</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">RSSI</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">-67 dBm</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">최근수신</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div
+                            class="sensor-tooltip-value sensor-tooltip-value--strong"
+                          >
+                            2025.11.09 - 12:00:03
+                          </div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">설치위치</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">대차 1 축상 우</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- M1 좌측 상단 온도, 진동 센서 -->
+
+                  <!-- M1 중앙 온도센서 sensor-chip--right 시 우측으로 열림-->
+                  <div
+                    class="sensor-chip sensor-chip--temp"
+                    style="--x: 60.8; --y: 34.5"
+                    aria-label="M1 온도 센서"
+                  >
+                    <div class="sensor-tooltip">
+                      <div class="sensor-tooltip-content">
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">센서ID</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div
+                            class="sensor-tooltip-value sensor-tooltip-value--strong"
+                          >
+                            VIB-02213
+                          </div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">타입</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">진동</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">배터리</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">72%</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">RSSI</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">-67 dBm</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">최근수신</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div
+                            class="sensor-tooltip-value sensor-tooltip-value--strong"
+                          >
+                            2025.11.09 - 12:00:03
+                          </div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">설치위치</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">대차 1 축상 우</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- M1 중앙 온도센서 -->
+
+                  <!---->
+                  <!-- M1 중앙 진동센서 -->
+
+                  <div
+                    class="sensor-chip sensor-chip--vib"
+                    style="--x: 58.5; --y: 58.5"
+                    aria-label="M1 진동 센서"
+                  >
+                    <div class="sensor-tooltip">
+                      <div class="sensor-tooltip-content">
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">센서ID</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div
+                            class="sensor-tooltip-value sensor-tooltip-value--strong"
+                          >
+                            VIB-02213
+                          </div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">타입</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">진동</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">배터리</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">72%</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">RSSI</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">-67 dBm</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">최근수신</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div
+                            class="sensor-tooltip-value sensor-tooltip-value--strong"
+                          >
+                            2025.11.09 - 12:00:03
+                          </div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">설치위치</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">대차 1 축상 우</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- M1 중앙 진동센서 -->
+
+                  <!-- M1 온도 센서 sensor-chip--reverse 시 위로열림-->
+                  <div
+                    class="sensor-chip sensor-chip--temp"
+                    style="--x: 58.1; --y: 74.5"
+                    aria-label="M1 온도 센서"
+                  >
+                    <div class="sensor-tooltip">
+                      <div class="sensor-tooltip-content">
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">센서ID</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div
+                            class="sensor-tooltip-value sensor-tooltip-value--strong"
+                          >
+                            VIB-02213
+                          </div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">타입</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">진동</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">배터리</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">72%</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">RSSI</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">-67 dBm</div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">최근수신</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div
+                            class="sensor-tooltip-value sensor-tooltip-value--strong"
+                          >
+                            2025.11.09 - 12:00:03
+                          </div>
+                        </div>
+                        <div class="sensor-tooltip-row">
+                          <div class="sensor-tooltip-label">설치위치</div>
+                          <div class="sensor-tooltip-divider"></div>
+                          <div class="sensor-tooltip-value">대차 1 축상 우</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- M1 온도 센서 -->
+                </div>
+                <!-- 전체 배경 열차 -->
+                <img src="img/back-trains.svg" alt="" class="train-bg" />
+
+                <!-- TC1 / M1 오버레이 (하이라이트용) -->
+                <img
+                  src="img/TC1_back.svg"
+                  alt=""
+                  class="train-overlay train-overlay--tc1"
+                />
+                <img
+                  src="img/M1_back.svg"
+                  alt=""
+                  class="train-overlay train-overlay--m1"
+                />
+                <!-- 센서 버튼들 (위치는 %로 제어) -->
+
+                <!-- 범례 -->
+                <div class="train-legend">
+                  <div class="legend-item">
+                    <img
+                      src="img/cate-temp.svg"
+                      class="legend-icon"
+                      alt="온도센서"
+                    />
+                    <span>온도센서</span>
+                  </div>
+                  <div class="legend-item">
+                    <img
+                      src="img/cate-vibe.svg"
+                      class="legend-icon"
+                      alt="진동센서"
+                    />
+                    <span>진동센서</span>
+                  </div>
+                </div>
+                <!-- 범례 -->
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- 센서 목록 + 그래프 -->
+        <div class="assets-row assets-row--main">
+          <!-- 왼쪽 : 센서 목록 -->
+          <article class="card sensor-list-card">
+            <div class="card-header">
+              <div class="card-title">센서 목록</div>
+            </div>
+            <div class="card-body sensor-list-body">
+              <div class="sensor-table">
+                <!-- 헤더 -->
+                <div class="sensor-table-head">
+                  <div class="sensor-row sensor-row--header">
+                    <div class="sensor-col sensor-col--type">타입</div>
+                    <div class="sensor-col sensor-col--id">키트ID / 센서ID</div>
+                    <div class="sensor-col sensor-col--kind">센서수/타입</div>
+                    <div class="sensor-col sensor-col--battery">배터리</div>
+                    <div class="sensor-col sensor-col--rssi">RSSI</div>
+                  </div>
+                </div>
+
+                <!-- 바디 -->
+                <div class="sensor-table-body">
+                  <!-- 1 -->
+                  <div class="sensor-row">
+                    <div class="sensor-col sensor-col--type">
+                      <img src="img/icon_sensor_vib.svg" alt="" />
+                    </div>
+                    <div class="sensor-col sensor-col--id">VIB-02221</div>
+                    <div class="sensor-col sensor-col--kind f_14">
+                      <img class="" src="img/icon_vibe_sensor.svg" alt="" />진동
+                    </div>
+                    <div class="sensor-col sensor-col--battery">
+                      <div class="battery-bar">
+                        <div class="battery-bar-fill" style="width: 15%"></div>
+                      </div>
+                      <span class="battery-label">15%</span>
+                    </div>
+                    <div class="sensor-col sensor-col--rssi">
+                      <span class="rssi-value">-88 dBm</span>
+                      <span class="rssi-badge rssi-badge--weak">약함</span>
+                    </div>
+                  </div>
+
+                  <!-- 2 -->
+                  <div class="sensor-row">
+                    <div class="sensor-col sensor-col--type">
+                      <img src="img/icon_sensor_vib.svg" alt="" />
+                    </div>
+                    <div class="sensor-col sensor-col--id">VIB-02221</div>
+                    <div class="sensor-col sensor-col--kind f_14">
+                      <img class="" src="img/icon_vibe_sensor.svg" alt="" />진동
+                    </div>
+                    <div class="sensor-col sensor-col--battery">
+                      <div class="battery-bar">
+                        <div class="battery-bar-fill" style="width: 65%"></div>
+                      </div>
+                      <span class="battery-label">65%</span>
+                    </div>
+                    <div class="sensor-col sensor-col--rssi">
+                      <span class="rssi-value">-62 dBm</span>
+                      <span class="rssi-badge">정상</span>
+                    </div>
+                  </div>
+
+                  <!-- 3 -->
+                  <div class="sensor-row">
+                    <div class="sensor-col sensor-col--type">
+                      <img src="img/icon_sensor_vib.svg" alt="" />
+                    </div>
+                    <div class="sensor-col sensor-col--id">VIB-02222</div>
+                    <div class="sensor-col sensor-col--kind f_14">
+                      <img class="" src="img/icon_vibe_sensor.svg" alt="" />진동
+                    </div>
+                    <div class="sensor-col sensor-col--battery">
+                      <div class="battery-bar">
+                        <div class="battery-bar-fill" style="width: 30%"></div>
+                      </div>
+                      <span class="battery-label">30%</span>
+                    </div>
+                    <div class="sensor-col sensor-col--rssi">
+                      <span class="rssi-value">-75 dBm</span>
+                      <span class="rssi-badge">정상</span>
+                    </div>
+                  </div>
+
+                  <!-- 4 -->
+                  <div class="sensor-row">
+                    <div class="sensor-col sensor-col--type">
+                      <img src="img/icon_sensor_vib.svg" alt="" />
+                    </div>
+                    <div class="sensor-col sensor-col--id">VIB-02222</div>
+                    <div class="sensor-col sensor-col--kind f_14">
+                      <img class="" src="img/icon_vibe_sensor.svg" alt="" />진동
+                    </div>
+                    <div class="sensor-col sensor-col--battery">
+                      <div class="battery-bar">
+                        <div class="battery-bar-fill" style="width: 80%"></div>
+                      </div>
+                      <span class="battery-label">80%</span>
+                    </div>
+                    <div class="sensor-col sensor-col--rssi">
+                      <span class="rssi-value">-58 dBm</span>
+                      <span class="rssi-badge">정상</span>
+                    </div>
+                  </div>
+
+                  <!-- 5 -->
+                  <div class="sensor-row">
+                    <div class="sensor-col sensor-col--type">
+                      <img src="img/icon_sensor_temp.svg" alt="" />
+                    </div>
+                    <div class="sensor-col sensor-col--id">TEMP-00604</div>
+                    <div class="sensor-col sensor-col--kind f_14">
+                      <img class="" src="img/icon_temp_sensor.svg" alt="" />온도
+                    </div>
+                    <div class="sensor-col sensor-col--battery">
+                      <div class="battery-bar">
+                        <div class="battery-bar-fill" style="width: 45%"></div>
+                      </div>
+                      <span class="battery-label">45%</span>
+                    </div>
+                    <div class="sensor-col sensor-col--rssi">
+                      <span class="rssi-value">-70 dBm</span>
+                      <span class="rssi-badge">정상</span>
+                    </div>
+                  </div>
+
+                  <!-- 6 -->
+                  <div class="sensor-row">
+                    <div class="sensor-col sensor-col--type">
+                      <img src="img/icon_sensor_temp.svg" alt="" />
+                    </div>
+                    <div class="sensor-col sensor-col--id">TEMP-00605</div>
+                    <div class="sensor-col sensor-col--kind f_14">
+                      <img class="" src="img/icon_temp_sensor.svg" alt="" />온도
+                    </div>
+                    <div class="sensor-col sensor-col--battery">
+                      <div class="battery-bar">
+                        <div class="battery-bar-fill" style="width: 55%"></div>
+                      </div>
+                      <span class="battery-label">55%</span>
+                    </div>
+                    <div class="sensor-col sensor-col--rssi">
+                      <span class="rssi-value">-65 dBm</span>
+                      <span class="rssi-badge">정상</span>
+                    </div>
+                  </div>
+
+                  <!-- 7 -->
+                  <div class="sensor-row">
+                    <div class="sensor-col sensor-col--type">
+                      <img src="img/icon_sensor_temp.svg" alt="" />
+                    </div>
+                    <div class="sensor-col sensor-col--id">TEMP-00607</div>
+                    <div class="sensor-col sensor-col--kind f_14">
+                      <img class="" src="img/icon_vibe_sensor.svg" alt="" />진동
+                    </div>
+                    <div class="sensor-col sensor-col--battery">
+                      <div class="battery-bar">
+                        <div class="battery-bar-fill" style="width: 50%"></div>
+                      </div>
+                      <span class="battery-label">50%</span>
+                    </div>
+                    <div class="sensor-col sensor-col--rssi">
+                      <span class="rssi-value">-68 dBm</span>
+                      <span class="rssi-badge">정상</span>
+                    </div>
+                  </div>
+
+                  <!-- 8 -->
+                  <div class="sensor-row">
+                    <div class="sensor-col sensor-col--type">
+                      <img src="img/icon_sensor_temp.svg" alt="" />
+                    </div>
+                    <div class="sensor-col sensor-col--id">TEMP-00608</div>
+                    <div class="sensor-col sensor-col--kind f_14">
+                      <img class="" src="img/icon_vibe_sensor.svg" alt="" />진동
+                    </div>
+                    <div class="sensor-col sensor-col--battery">
+                      <div class="battery-bar">
+                        <div class="battery-bar-fill" style="width: 75%"></div>
+                      </div>
+                      <span class="battery-label">75%</span>
+                    </div>
+                    <div class="sensor-col sensor-col--rssi">
+                      <span class="rssi-value">-60 dBm</span>
+                      <span class="rssi-badge">강함</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- 오른쪽 : ECharts 그래프 -->
+          <article class="card sensor-chart-card">
+            <div class="card-header">
+              <div class="card-title">센서 목록</div>
+
+              <div class="chart-actions">
+                <img src="/img/btn-csv.svg" alt="" />
+                <img src="/img/btn-exl.svg" alt="" />
+                <img src="/img/btn-png.svg" alt="" />
+                <img src="/img/btn-rst.svg" alt="" />
+              </div>
+            </div>
+
+            <div class="card-body sensor-chart-body">
+              <div class="chart-block">
+                <div class="chart-title">Velocity RMS (mm/s)</div>
+                <div
+                  id="chart-velocity"
+                  class="sensor-chart echarts-instance"
+                ></div>
+              </div>
+              <div class="chart-block">
+                <div class="chart-title">Acceleration RMS (g)</div>
+                <div
+                  id="chart-accel"
+                  class="sensor-chart echarts-instance"
+                ></div>
+              </div>
+              <div class="chart-block">
+                <div class="chart-title">Temperature (°C)</div>
+                <div
+                  id="chart-temp"
+                  class="sensor-chart echarts-instance"
+                ></div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- 하단 Metrics 탭 -->
+        <div class="assets-row assets-row--metrics">
+          <article class="card metrics-card no-radius">
+            <div class="metrics-inner">
+              <div class="metrics-title">지표 (Metrics)</div>
+
+              <div class="innerWrap">
+                <div class="metrics-chips">
+                  <label>RMS (gRMS)</label>
+                  <button class="metrics-chip">X</button>
+                  <button class="metrics-chip is-active">Y</button>
+                  <button class="metrics-chip">Z</button>
+                </div>
+                <div class="metrics-chips">
+                  <label>Velocity (mm/s)</label>
+                  <button class="metrics-chip">X</button>
+                  <button class="metrics-chip is-active">Y</button>
+                  <button class="metrics-chip">Z</button>
+                </div>
+                <div class="metrics-chips">
+                  <label>Temperature (℃)</label>
+                  <button class="metrics-chip no-width">Temp</button>
+                </div>
+              </div>
+              <button class="metrics-apply-btn" type="button">적용</button>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+  <script src="js/script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+</html>

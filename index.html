@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>무선센서 모니터링 · 상태진단 플랫폼</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script
+      type="text/javascript"
+      src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=7ndakwea3l"
+    ></script>
+  </head>
+  <body>
+    <!-- 상단 헤더 -->
+    <header class="app-header">
+      <div class="app-title">
+        <div class="app-title-logo">
+          <img src="img/main-logo.svg" alt="" />
+        </div>
+        <span>무선센서 모니터링 · 상태진단 플랫폼</span>
+      </div>
+      <!-- 중앙: GNB 탭 -->
+      <div class="app-header-gnb">
+        <div class="gnb-tabs">
+          <button onclick="location.href='index.html'" class="gnb-tab active">
+            Overview
+          </button>
+          <button onclick="location.href='index2.html'" class="gnb-tab">
+            Assets
+          </button>
+          <button class="gnb-tab">Diagnostics</button>
+          <button class="gnb-tab">Users</button>
+        </div>
+      </div>
+      <div class="app-header-right">
+        <div class="app-time">
+          <div>2025.08.23</div>
+          <div>01:22:52</div>
+        </div>
+        <div class="app-user">
+          <div class="avatar"><img src="img/user.png" alt=""></div>
+        </div>
+      </div>
+    </header>
+
+    <div class="hr"></div>
+
+    <!-- 헤더 바로 아래 위치 -->
+    <div class="sub-toolbar">
+      <!-- 왼쪽 셀렉트 2개 -->
+      <div class="sub-toolbar-left">
+        <select class="sub-select">
+          <option>부산교통공사 1호선 - 노포차량사업소</option>
+        </select>
+
+        <select class="sub-select">
+          <option>KIT-BUSAN-L1-NOPO-01</option>
+        </select>
+      </div>
+
+      <!-- 오른쪽: 마지막 갱신 / 갱신 버튼 / Live 버튼 -->
+      <div class="sub-toolbar-right">
+        <div class="last-update">
+          <div style="font-size: 12px">마지막 갱신</div>
+          <div style="font-weight: 600">2025-11-18 12:55:41</div>
+        </div>
+
+        <button class="refresh-btn">
+          <img src="/img/refresh.svg" alt="refresh" />
+        </button>
+
+        <button class="live-btn" id="liveBtn" type="button">
+          <img src="img/play.svg" alt="" />
+          Live
+        </button>
+      </div>
+    </div>
+
+    <!-- 메인 -->
+    <main class="app-main">
+      <!-- 필터/툴바 영역 -->
+      <!-- <div class="toolbar">
+        <div class="toolbar-left">
+          <select class="select">
+            <option>부산교통공사 1호선 - 노포차량사업소</option>
+          </select>
+          <select class="select">
+            <option>KIT-BUSAN-L1-NOPO-01</option>
+          </select>
+        </div>
+        <div class="toolbar-right">
+          <button class="filter-chip active">온라인 / 오프라인</button>
+          <button class="filter-chip">배터리 &lt; 20%</button>
+          <button class="filter-chip">RSSI &lt; -80</button>
+          <div class="live-indicator">Live</div>
+        </div>
+      </div> -->
+
+      <!-- 2x2 카드 레이아웃 -->
+      <section class="content-grid">
+        <div class="content-row">
+          <!-- 위치 -->
+          <article class="card no-padding">
+            <div class="card-header add-padding">
+              <div class="card-title">위치</div>
+
+              <div class="online-check">
+                <div class="online-check-item">
+                  <span class="oc-dot oc-online"></span>
+                  <span>온라인</span>
+                </div>
+
+                <div class="online-check-item">
+                  <span class="oc-dot oc-alarm"></span>
+                  <span>알람</span>
+                </div>
+
+                <div class="online-check-item">
+                  <span class="oc-dot oc-offline"></span>
+                  <span>오프라인</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-body no-padding">
+              <!-- 네이버 지도 영역 -->
+              <div id="location-map" class="location-map"></div>
+            </div>
+          </article>
+
+          <!-- 상태 -->
+          <article class="card state-card">
+            <div class="card-header">
+              <div class="card-title">상태</div>
+              <div class="card-header-actions">
+                <button class="card-toggle-chip is-on" data-filter="online">
+                  온라인 / 오프라인
+                </button>
+                <button class="card-toggle-chip" data-filter="battery">
+                  배터리 &lt; 20%
+                </button>
+                <button class="card-toggle-chip" data-filter="rssi">
+                  RSSI &lt; -80
+                </button>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div class="state-table">
+                <!-- 헤더: 항상 맨 위, 스크롤 영역 밖 -->
+                <div class="state-table-head">
+                  <div class="state-row header">
+                    <div class="state-col state-col--toggle"></div>
+                    <div class="state-col state-col--status">상태</div>
+                    <div class="state-col state-col--kit">키트ID / 센서ID</div>
+                    <div class="state-col state-col--gateway">게이트웨이수</div>
+                    <div class="state-col state-col--sensor-type">
+                      센서수/타입
+                    </div>
+                    <div class="state-col state-col--battery">배터리</div>
+                    <div class="state-col state-col--rssi">RSSI</div>
+                    <div class="state-col state-col--last-seen">
+                      마지막수신시각
+                    </div>
+                    <div class="state-col state-col--location">설치위치</div>
+                    <div class="state-col state-col--action"></div>
+                  </div>
+                </div>
+
+                <!-- 스크롤 영역: 리스트(그룹 + 자식행)만 들어감 -->
+                <div class="state-table-body">
+                  <!-- 큰 리스트(그룹 행) -->
+                  <div class="state-row group is-open" data-group="kit-1">
+                    <div class="state-col state-col--toggle">
+                      <!-- <button class="state-toggle-btn" aria-expanded="true">
+                        ›
+                      </button> -->
+                      <img
+                        class="state-toggle-btn"
+                        src="/img/icon_state_down.svg"
+                        alt=""
+                      />
+                    </div>
+                    <div class="state-col state-col--status">
+                      <span class="status-dot status-dot--danger"></span>
+                    </div>
+                    <div class="state-col state-col--kit">
+                      KIT-BUSAN-L1-NOPO-01
+                    </div>
+                    <div class="state-col state-col--gateway">1</div>
+                    <div class="state-col state-col--sensor-type">10</div>
+                    <div class="state-col state-col--battery">
+                      <div class="battery-bar battery-group">
+                        <div class="battery-max" style="width: 85%"></div>
+                        <div class="battery-min" style="width: 22%"></div>
+                      </div>
+                      <div class="battery-text">15/28</div>
+                      <!-- JS로 채워짐 -->
+                    </div>
+                    <div class="state-col state-col--rssi">
+                      <span>-67 dBm</span>
+                      <span class="badge-pill">정상</span>
+                    </div>
+                    <div class="state-col state-col--last-seen">
+                      2025.11.09 - 12:00:03
+                    </div>
+                    <div class="state-col state-col--location">
+                      노포 차량기지
+                    </div>
+                    <div class="state-col state-col--action"></div>
+                  </div>
+                  <!-- 그룹 1 세부 리스트(센서 10개) -->
+                  <div class="state-subrows is-open" data-group="kit-1">
+                    <!-- 1 -->
+                    <div class="state-row child">
+                      <div class="state-col state-col--toggle"></div>
+                      <div class="state-col state-col--status">
+                        <span class="status-dot status-dot--online"></span>
+                      </div>
+                      <div class="state-col state-col--kit">02211</div>
+                      <div class="state-col state-col--gateway">GW-840X-01</div>
+                      <div class="state-col state-col--sensor-type">
+                        <img class="" src="img/icon_sensors.png" alt="" />진동
+                      </div>
+                      <div class="state-col state-col--battery">
+                        <div class="battery-bar">
+                          <div class="battery-bar-fill"></div>
+                        </div>
+                        <div class="battery-text">10V</div>
+                      </div>
+                      <div class="state-col state-col--rssi">
+                        <span>-88 dBm</span>
+                        <span class="badge-pill badge-pill--weak">약함</span>
+                      </div>
+                      <div class="state-col state-col--last-seen">
+                        2025.11.09 - 12:00:03
+                      </div>
+                      <div class="state-col state-col--location">
+                        TC1 후위대차 우측
+                      </div>
+                      <div class="state-col state-col--action">
+                        <button class="icon-btn">
+                          <img src="img/icon_cam.svg" alt="" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- 2 -->
+                    <div class="state-row child">
+                      <div class="state-col state-col--toggle"></div>
+                      <div class="state-col state-col--status">
+                        <span class="status-dot status-dot--online"></span>
+                      </div>
+                      <div class="state-col state-col--kit">02212</div>
+                      <div class="state-col state-col--gateway">GW-840X-01</div>
+                      <div class="state-col state-col--sensor-type">
+                        <img class="" src="img/icon_sensors.png" alt="" />진동
+                      </div>
+                      <div class="state-col state-col--battery">
+                        <div class="battery-bar">
+                          <div class="battery-bar-fill"></div>
+                        </div>
+                        <div class="battery-text">24V</div>
+                      </div>
+                      <div class="state-col state-col--rssi">
+                        <span>-62 dBm</span>
+                        <span class="badge-pill">정상</span>
+                      </div>
+                      <div class="state-col state-col--last-seen">
+                        2025.11.09 - 12:00:03
+                      </div>
+                      <div class="state-col state-col--location">
+                        TC1 전위대차 좌측
+                      </div>
+                      <div class="state-col state-col--action">
+                        <button class="icon-btn">
+                          <img src="img/icon_cam.svg" alt="" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- 3 -->
+                    <div class="state-row child">
+                      <div class="state-col state-col--toggle"></div>
+                      <div class="state-col state-col--status">
+                        <span class="status-dot status-dot--online"></span>
+                      </div>
+                      <div class="state-col state-col--kit">02213</div>
+                      <div class="state-col state-col--gateway">GW-840X-01</div>
+                      <div class="state-col state-col--sensor-type">
+                        <img class="" src="img/icon_sensors.png" alt="" />진동
+                      </div>
+                      <div class="state-col state-col--battery">
+                        <div class="battery-bar">
+                          <div class="battery-bar-fill"></div>
+                        </div>
+                        <div class="battery-text">50V</div>
+                      </div>
+                      <div class="state-col state-col--rssi">
+                        <span>-75 dBm</span>
+                        <span class="badge-pill">정상</span>
+                      </div>
+                      <div class="state-col state-col--last-seen">
+                        2025.11.09 - 12:00:03
+                      </div>
+                      <div class="state-col state-col--location">
+                        M1 전위대차 좌측
+                      </div>
+                      <div class="state-col state-col--action">
+                        <button class="icon-btn">
+                          <img src="img/icon_cam.svg" alt="" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- 4 -->
+                    <div class="state-row child">
+                      <div class="state-col state-col--toggle"></div>
+                      <div class="state-col state-col--status">
+                        <span class="status-dot status-dot--online"></span>
+                      </div>
+                      <div class="state-col state-col--kit">02214</div>
+                      <div class="state-col state-col--gateway">GW-840X-01</div>
+                      <div class="state-col state-col--sensor-type">
+                        <img class="" src="img/icon_sensors.png" alt="" />진동
+                      </div>
+                      <div class="state-col state-col--battery">
+                        <div class="battery-bar">
+                          <div
+                            class="battery-bar-fill"
+                            style="width: 75%"
+                          ></div>
+                        </div>
+                        <div class="battery-text">80V</div>
+                      </div>
+                      <div class="state-col state-col--rssi">
+                        <span>-58 dBm</span>
+                        <span class="badge-pill">정상</span>
+                      </div>
+                      <div class="state-col state-col--last-seen">
+                        2025.11.09 - 12:01:20
+                      </div>
+                      <div class="state-col state-col--location">
+                        M1 전위대차 우측
+                      </div>
+                      <div class="state-col state-col--action">
+                        <button class="icon-btn">
+                          <img src="img/icon_cam.svg" alt="" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- 5 -->
+                    <div class="state-row child">
+                      <div class="state-col state-col--toggle"></div>
+                      <div class="state-col state-col--status">
+                        <span class="status-dot status-dot--online"></span>
+                      </div>
+                      <div class="state-col state-col--kit">02215</div>
+                      <div class="state-col state-col--gateway">GW-840X-01</div>
+                      <div class="state-col state-col--sensor-type">
+                        <img class="" src="img/icon_sensors.png" alt="" />진동
+                      </div>
+                      <div class="state-col state-col--battery">
+                        <div class="battery-bar">
+                          <div class="battery-bar-fill"></div>
+                        </div>
+                        <div class="battery-text">75V</div>
+                      </div>
+                      <div class="state-col state-col--rssi">
+                        <span>-82 dBm</span>
+                        <span class="badge-pill badge-pill--weak">약함</span>
+                      </div>
+                      <div class="state-col state-col--last-seen">
+                        2025.11.09 - 12:01:45
+                      </div>
+                      <div class="state-col state-col--location">
+                        M1 후위대차 좌측
+                      </div>
+                      <div class="state-col state-col--action">
+                        <button class="icon-btn">
+                          <img src="img/icon_cam.svg" alt="" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- 6 -->
+                    <div class="state-row child">
+                      <div class="state-col state-col--toggle"></div>
+                      <div class="state-col state-col--status">
+                        <span class="status-dot status-dot--online"></span>
+                      </div>
+                      <div class="state-col state-col--kit">02216</div>
+                      <div class="state-col state-col--gateway">GW-840X-01</div>
+                      <div class="state-col state-col--sensor-type">
+                        <img class="" src="img/icon_sensors.png" alt="" />진동
+                      </div>
+                      <div class="state-col state-col--battery">
+                        <div class="battery-bar">
+                          <div class="battery-bar-fill"></div>
+                        </div>
+                        <div class="battery-text">60V</div>
+                      </div>
+                      <div class="state-col state-col--rssi">
+                        <span>-79 dBm</span>
+                        <span class="badge-pill">정상</span>
+                      </div>
+                      <div class="state-col state-col--last-seen">
+                        2025.11.09 - 12:02:03
+                      </div>
+                      <div class="state-col state-col--location">
+                        M1 후위대차 우측
+                      </div>
+                      <div class="state-col state-col--action">
+                        <button class="icon-btn">
+                          <img src="img/icon_cam.svg" alt="" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- 7 -->
+                    <div class="state-row child">
+                      <div class="state-col state-col--toggle"></div>
+                      <div class="state-col state-col--status">
+                        <span class="status-dot status-dot--online"></span>
+                      </div>
+                      <div class="state-col state-col--kit">02217</div>
+                      <div class="state-col state-col--gateway">GW-840X-01</div>
+                      <div class="state-col state-col--sensor-type">
+                        <img class="" src="img/icon_sensors.png" alt="" />진동
+                      </div>
+                      <div class="state-col state-col--battery">
+                        <div class="battery-bar">
+                          <div class="battery-bar-fill"></div>
+                        </div>
+                        <div class="battery-text">90V</div>
+                      </div>
+                      <div class="state-col state-col--rssi">
+                        <span>-71 dBm</span>
+                        <span class="badge-pill">정상</span>
+                      </div>
+                      <div class="state-col state-col--last-seen">
+                        2025.11.09 - 12:02:33
+                      </div>
+                      <div class="state-col state-col--location">
+                        M2 전위대차 좌측
+                      </div>
+                      <div class="state-col state-col--action">
+                        <button class="icon-btn">
+                          <img src="img/icon_cam.svg" alt="" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- 8 -->
+                    <div class="state-row child">
+                      <div class="state-col state-col--toggle"></div>
+                      <div class="state-col state-col--status">
+                        <span class="status-dot status-dot--online"></span>
+                      </div>
+                      <div class="state-col state-col--kit">02218</div>
+                      <div class="state-col state-col--gateway">GW-840X-01</div>
+                      <div class="state-col state-col--sensor-type">
+                        <img class="" src="img/icon_sensors.png" alt="" />진동
+                      </div>
+                      <div class="state-col state-col--battery">
+                        <div class="battery-bar">
+                          <div class="battery-bar-fill"></div>
+                        </div>
+                        <div class="battery-text">42V</div>
+                      </div>
+                      <div class="state-col state-col--rssi">
+                        <span>-66 dBm</span>
+                        <span class="badge-pill">정상</span>
+                      </div>
+                      <div class="state-col state-col--last-seen">
+                        2025.11.09 - 12:02:58
+                      </div>
+                      <div class="state-col state-col--location">
+                        M2 전위대차 우측
+                      </div>
+                      <div class="state-col state-col--action">
+                        <button class="icon-btn">
+                          <img src="img/icon_cam.svg" alt="" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- 9 -->
+                    <div class="state-row child">
+                      <div class="state-col state-col--toggle"></div>
+                      <div class="state-col state-col--status">
+                        <span class="status-dot status-dot--online"></span>
+                      </div>
+                      <div class="state-col state-col--kit">02219</div>
+                      <div class="state-col state-col--gateway">GW-840X-01</div>
+                      <div class="state-col state-col--sensor-type">
+                        <img class="" src="img/icon_sensors.png" alt="" />진동
+                      </div>
+                      <div class="state-col state-col--battery">
+                        <div class="battery-bar">
+                          <div class="battery-bar-fill"></div>
+                        </div>
+                        <div class="battery-text">40V</div>
+                      </div>
+                      <div class="state-col state-col--rssi">
+                        <span>-83 dBm</span>
+                        <span class="badge-pill badge-pill--weak">약함</span>
+                      </div>
+                      <div class="state-col state-col--last-seen">
+                        2025.11.09 - 12:03:10
+                      </div>
+                      <div class="state-col state-col--location">
+                        M2 후위대차 좌측
+                      </div>
+                      <div class="state-col state-col--action">
+                        <button class="icon-btn">
+                          <img src="img/icon_cam.svg" alt="" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- 10 -->
+                    <div class="state-row child">
+                      <div class="state-col state-col--toggle"></div>
+                      <div class="state-col state-col--status">
+                        <span class="status-dot status-dot--online"></span>
+                      </div>
+                      <div class="state-col state-col--kit">02220</div>
+                      <div class="state-col state-col--gateway">GW-840X-01</div>
+                      <div class="state-col state-col--sensor-type">
+                        <img class="" src="img/icon_sensors.png" alt="" />진동
+                      </div>
+                      <div class="state-col state-col--battery">
+                        <div class="battery-bar">
+                          <div class="battery-bar-fill"></div>
+                        </div>
+                        <div class="battery-text">100V</div>
+                      </div>
+                      <div class="state-col state-col--rssi">
+                        <span>-69 dBm</span>
+                        <span class="badge-pill">정상</span>
+                      </div>
+                      <div class="state-col state-col--last-seen">
+                        2025.11.09 - 12:03:40
+                      </div>
+                      <div class="state-col state-col--location">
+                        M2 후위대차 우측
+                      </div>
+                      <div class="state-col state-col--action">
+                        <button class="icon-btn">
+                          <img src="img/icon_cam.svg" alt="" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <!--  -->
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="content-row">
+          <!-- 취약 센서 정보 -->
+          <article class="card no-lr-padding no-padding-top">
+            <div class="card-header add-padding">
+              <div class="card-title">취약 센서 정보</div>
+            </div>
+            <div class="card-body">
+              <!-- 취약 센서 정보 섹션 -->
+              <section class="weak-section">
+                <div class="weak-section-columns">
+                  <!-- 배터리 Top 5 (낮은 순) -->
+                  <div class="weak-column weak-column--battery">
+                    <h3 class="weak-column-title">배터리 Top 5 (낮은 순)</h3>
+
+                    <!-- 1위 아이템 -->
+                    <div class="weak-sensor-item">
+                      <!-- 좌측 넘버링 -->
+                      <div class="weak-sensor-rank">1</div>
+
+                      <!-- 우측 카드 영역 -->
+                      <div class="weak-sensor-card">
+                        <!-- 상단 : 센서ID / 전압 -->
+                        <div class="weak-sensor-header">
+                          <div class="weak-sensor-info">
+                            <img src="/img/icon_sensors.png" alt="" />
+                            <span class="weak-sensor-id">02211</span>
+                          </div>
+                          <div
+                            class="weak-sensor-value weak-sensor-value--danger"
+                          >
+                            2.95V
+                          </div>
+                        </div>
+
+                        <!-- 중단 : 게이지 + 기준선(회색 세로선, 위치 이동 가능) -->
+                        <div class="weak-sensor-gauge">
+                          <div class="weak-sensor-gauge-bar">
+                            <!-- 실제 채워지는 구간 (width로 잔량 조절) -->
+                            <div
+                              class="weak-sensor-gauge-fill weak-sensor-gauge-fill--danger"
+                              style="width: 10%"
+                            ></div>
+
+                            <!-- 기준선 : left% 로 위치 이동 -->
+                            <div
+                              class="weak-sensor-gauge-threshold"
+                              style="left: 50%"
+                            ></div>
+                          </div>
+                        </div>
+
+                        <!-- 하단 : 위험도 / 기준치 텍스트 -->
+                        <div class="weak-sensor-footer">
+                          <div
+                            class="weak-sensor-status weak-sensor-status--danger"
+                          >
+                            위험
+                          </div>
+                          <div class="weak-sensor-baseline">
+                            기준
+                            <span class="weak-sensor-baseline-value"
+                              >3.00V</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- 아래부터 2~5위는 위 구조 복붙 후 값만 변경해서 사용 -->
+                    <!-- 예시 : 2위 (주의 / 주황색) -->
+                    <div class="weak-sensor-item">
+                      <div class="weak-sensor-rank">2</div>
+                      <div class="weak-sensor-card">
+                        <div class="weak-sensor-header">
+                          <div class="weak-sensor-info">
+                            <img src="/img/icon_sensors.png" alt="" />
+                            <span class="weak-sensor-id">00607</span>
+                          </div>
+                          <div
+                            class="weak-sensor-value weak-sensor-value--warning"
+                          >
+                            3.15V
+                          </div>
+                        </div>
+                        <div class="weak-sensor-gauge">
+                          <div class="weak-sensor-gauge-bar">
+                            <div
+                              class="weak-sensor-gauge-fill weak-sensor-gauge-fill--warning"
+                              style="width: 30%"
+                            ></div>
+                            <div
+                              class="weak-sensor-gauge-threshold"
+                              style="left: 50%"
+                            ></div>
+                          </div>
+                        </div>
+                        <div class="weak-sensor-footer">
+                          <div
+                            class="weak-sensor-status weak-sensor-status--warning"
+                          >
+                            주의
+                          </div>
+                          <div class="weak-sensor-baseline">
+                            기준
+                            <span class="weak-sensor-baseline-value"
+                              >3.00V</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="weak-sensor-item">
+                      <div class="weak-sensor-rank">3</div>
+                      <div class="weak-sensor-card">
+                        <div class="weak-sensor-header">
+                          <div class="weak-sensor-info">
+                            <img src="/img/icon_temp_sensor.svg" alt="" />
+                            <span class="weak-sensor-id">00607</span>
+                          </div>
+                          <div
+                            class="weak-sensor-value weak-sensor-value--normal"
+                          >
+                            3.15V
+                          </div>
+                        </div>
+                        <div class="weak-sensor-gauge">
+                          <div class="weak-sensor-gauge-bar">
+                            <div
+                              class="weak-sensor-gauge-fill weak-sensor-gauge-fill--normal"
+                              style="width: 65%"
+                            ></div>
+                            <div
+                              class="weak-sensor-gauge-threshold"
+                              style="left: 50%"
+                            ></div>
+                          </div>
+                        </div>
+                        <div class="weak-sensor-footer">
+                          <div
+                            class="weak-sensor-status weak-sensor-status--normal"
+                          >
+                            정상
+                          </div>
+                          <div class="weak-sensor-baseline">
+                            기준
+                            <span class="weak-sensor-baseline-value"
+                              >3.00V</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="weak-sensor-item">
+                      <div class="weak-sensor-rank">4</div>
+                      <div class="weak-sensor-card">
+                        <div class="weak-sensor-header">
+                          <div class="weak-sensor-info">
+                            <img src="/img/icon_temp_sensor.svg" alt="" />
+                            <span class="weak-sensor-id">00607</span>
+                          </div>
+                          <div
+                            class="weak-sensor-value weak-sensor-value--warning"
+                          >
+                            3.15V
+                          </div>
+                        </div>
+                        <div class="weak-sensor-gauge">
+                          <div class="weak-sensor-gauge-bar">
+                            <div
+                              class="weak-sensor-gauge-fill weak-sensor-gauge-fill--danger"
+                              style="width: 20%"
+                            ></div>
+                            <div
+                              class="weak-sensor-gauge-threshold"
+                              style="left: 50%"
+                            ></div>
+                          </div>
+                        </div>
+                        <div class="weak-sensor-footer">
+                          <div
+                            class="weak-sensor-status weak-sensor-status--danger"
+                          >
+                            주의
+                          </div>
+                          <div class="weak-sensor-baseline">
+                            기준
+                            <span class="weak-sensor-baseline-value"
+                              >3.00V</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="weak-sensor-item">
+                      <div class="weak-sensor-rank">5</div>
+                      <div class="weak-sensor-card">
+                        <div class="weak-sensor-header">
+                          <div class="weak-sensor-info">
+                            <img src="/img/icon_temp_sensor.svg" alt="" />
+                            <span class="weak-sensor-id">00607</span>
+                          </div>
+                          <div
+                            class="weak-sensor-value weak-sensor-value--normal"
+                          >
+                            3.15V
+                          </div>
+                        </div>
+                        <div class="weak-sensor-gauge">
+                          <div class="weak-sensor-gauge-bar">
+                            <div
+                              class="weak-sensor-gauge-fill weak-sensor-gauge-fill--normal"
+                              style="width: 70%"
+                            ></div>
+                            <div
+                              class="weak-sensor-gauge-threshold"
+                              style="left: 50%"
+                            ></div>
+                          </div>
+                        </div>
+                        <div class="weak-sensor-footer">
+                          <div
+                            class="weak-sensor-status weak-sensor-status--normal"
+                          >
+                            정상
+                          </div>
+                          <div class="weak-sensor-baseline">
+                            기준
+                            <span class="weak-sensor-baseline-value"
+                              >3.00V</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- … 3,4,5위도 동일 패턴 -->
+                  </div>
+
+                  <!-- RSSI Top 5 (약한 순) : 구조 동일, 텍스트/단위만 변경해서 사용 -->
+                  <div class="weak-column weak-column--rssi">
+                    <h3 class="weak-column-title">RSSI Top 5 (약한 순)</h3>
+
+                    <div class="weak-sensor-item">
+                      <div class="weak-sensor-rank">1</div>
+                      <div class="weak-sensor-card">
+                        <div class="weak-sensor-header">
+                          <div class="weak-sensor-info">
+                            <span class="weak-sensor-id">VIB - 02221</span>
+                          </div>
+                          <div
+                            class="weak-sensor-value weak-sensor-value--danger sensor-danger"
+                          >
+                            -88 dBm
+                          </div>
+                        </div>
+
+                        <div class="weak-sensor-gauge">
+                          <div class="weak-sensor-gauge-bar">
+                            <div
+                              class="weak-sensor-gauge-fill weak-sensor-gauge-fill--danger"
+                              style="width: 15%"
+                            ></div>
+                            <div
+                              class="weak-sensor-gauge-threshold"
+                              style="left: 50%"
+                            ></div>
+                          </div>
+                        </div>
+                        <!-- 경계 -->
+                      </div>
+                    </div>
+                    <div class="weak-sensor-item">
+                      <div class="weak-sensor-rank">2</div>
+                      <div class="weak-sensor-card">
+                        <div class="weak-sensor-header">
+                          <div class="weak-sensor-info">
+                            <span class="weak-sensor-id">VIB - 02214</span>
+                          </div>
+                          <div
+                            class="weak-sensor-value weak-sensor-value--warning sensor-warning"
+                          >
+                            -88 dBm
+                          </div>
+                        </div>
+
+                        <div class="weak-sensor-gauge">
+                          <div class="weak-sensor-gauge-bar">
+                            <div
+                              class="weak-sensor-gauge-fill weak-sensor-gauge-fill--danger"
+                              style="width: 35%"
+                            ></div>
+                            <div
+                              class="weak-sensor-gauge-threshold"
+                              style="left: 50%"
+                            ></div>
+                          </div>
+                        </div>
+                        <!-- 경계 -->
+                      </div>
+                    </div>
+                    <div class="weak-sensor-item">
+                      <div class="weak-sensor-rank">3</div>
+                      <div class="weak-sensor-card">
+                        <div class="weak-sensor-header">
+                          <div class="weak-sensor-info">
+                            <span class="weak-sensor-id">TEMP-00607</span>
+                          </div>
+                          <div
+                            class="weak-sensor-value weak-sensor-value--warning sensor-warning"
+                          >
+                            -88 dBm
+                          </div>
+                        </div>
+
+                        <div class="weak-sensor-gauge">
+                          <div class="weak-sensor-gauge-bar">
+                            <div
+                              class="weak-sensor-gauge-fill weak-sensor-gauge-fill--danger"
+                              style="width: 55%"
+                            ></div>
+                            <div
+                              class="weak-sensor-gauge-threshold"
+                              style="left: 50%"
+                            ></div>
+                          </div>
+                        </div>
+                        <!-- 경계 -->
+                      </div>
+                    </div>
+                    <div class="weak-sensor-item">
+                      <div class="weak-sensor-rank">4</div>
+                      <div class="weak-sensor-card">
+                        <div class="weak-sensor-header">
+                          <div class="weak-sensor-info">
+                            <span class="weak-sensor-id">VIB - 02217</span>
+                          </div>
+                          <div
+                            class="weak-sensor-value weak-sensor-value--danger sensor-danger"
+                          >
+                            -88 dBm
+                          </div>
+                        </div>
+
+                        <div class="weak-sensor-gauge">
+                          <div class="weak-sensor-gauge-bar">
+                            <div
+                              class="weak-sensor-gauge-fill weak-sensor-gauge-fill--danger"
+                              style="width: 25%"
+                            ></div>
+                            <div
+                              class="weak-sensor-gauge-threshold"
+                              style="left: 50%"
+                            ></div>
+                          </div>
+                        </div>
+                        <!-- 경계 -->
+                      </div>
+                    </div>
+                    <div class="weak-sensor-item">
+                      <div class="weak-sensor-rank">5</div>
+                      <div class="weak-sensor-card">
+                        <div class="weak-sensor-header">
+                          <div class="weak-sensor-info">
+                            <span class="weak-sensor-id">TEMP-00606</span>
+                          </div>
+                          <div
+                            class="weak-sensor-value weak-sensor-value--normal sensor-normal"
+                          >
+                            -60 dBm
+                          </div>
+                        </div>
+
+                        <div class="weak-sensor-gauge">
+                          <div class="weak-sensor-gauge-bar">
+                            <div
+                              class="weak-sensor-gauge-fill weak-sensor-gauge-fill--danger"
+                              style="width: 85%"
+                            ></div>
+                            <div
+                              class="weak-sensor-gauge-threshold"
+                              style="left: 50%"
+                            ></div>
+                          </div>
+                        </div>
+                        <!-- 경계 -->
+                      </div>
+                    </div>
+                    <!-- 이하 2~5위도 동일 구조 -->
+                  </div>
+                </div>
+              </section>
+            </div>
+          </article>
+          <!-- 최근 이벤트 -->
+          <article class="card event-card">
+            <div class="card-header">
+              <div class="card-title">최근 이벤트</div>
+            </div>
+
+            <div class="card-body">
+              <div class="event-table-wrapper">
+                <table class="event-table">
+                  <thead>
+                    <tr>
+                      <th class="event-col--status text-center">상태</th>
+                      <th class="event-col--type text-center">타입</th>
+                      <th class="event-col--sensor">센서ID</th>
+                      <th class="event-col--value">값 / 임계</th>
+                      <th class="event-col--time">타임스탬프</th>
+                      <th class="event-col--location">소속</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- 1 -->
+                    <tr class="event-row">
+                      <td class="event-col--status">
+                        <span class="event-badge event-badge--danger"
+                          >긴급</span
+                        >
+                      </td>
+                      <td class="event-col--type">
+                        <img
+                          src="/img/icon_vibe_sensor.svg"
+                          class="event-icon"
+                          alt=""
+                        />
+                        진동
+                      </td>
+                      <td class="event-col--sensor">VIB-02224</td>
+                      <td class="event-col--value">grms_z 0.85 (thr 0.70)</td>
+                      <td class="event-col--time">2025.11.09 - 12:00:03</td>
+                      <td class="event-col--location">노포 차량기지</td>
+                    </tr>
+
+                    <!-- 2 -->
+                    <tr class="event-row">
+                      <td class="event-col--status">
+                        <span class="event-badge event-badge--warning"
+                          >주의</span
+                        >
+                      </td>
+                      <td class="event-col--type">
+                        <img
+                          src="/img/icon_temp_sensor.svg"
+                          class="event-icon"
+                          alt=""
+                        />
+                        온도
+                      </td>
+                      <td class="event-col--sensor">TEMP-00606</td>
+                      <td class="event-col--value">15% (thr 0.70)</td>
+                      <td class="event-col--time">2025.11.08 - 09:31:07</td>
+                      <td class="event-col--location">노포 차량기지</td>
+                    </tr>
+
+                    <!-- 3 -->
+                    <tr class="event-row">
+                      <td class="event-col--status">
+                        <span class="event-badge event-badge--caution"
+                          >경고</span
+                        >
+                      </td>
+                      <td class="event-col--type">
+                        <img
+                          src="img/icon_batt_sensor.svg"
+                          class="event-icon"
+                          alt=""
+                        />
+                        배터리
+                      </td>
+                      <td class="event-col--sensor">VIB-02221</td>
+                      <td class="event-col--value">-73 dBm (thr 0.70)</td>
+                      <td class="event-col--time">2025.11.05 - 04:02:12</td>
+                      <td class="event-col--location">노포 차량기지</td>
+                    </tr>
+
+                    <!-- 4 -->
+                    <tr class="event-row">
+                      <td class="event-col--status">
+                        <span class="event-badge event-badge--caution"
+                          >경고</span
+                        >
+                      </td>
+                      <td class="event-col--type">
+                        <img
+                          src="/img/icon_rssi_sensor.svg"
+                          class="event-icon"
+                          alt=""
+                        />
+                        RSSI
+                      </td>
+                      <td class="event-col--sensor">VIB-02221</td>
+                      <td class="event-col--value">68°C (thr 0.70)</td>
+                      <td class="event-col--time">2025.11.02 - 03:00:03</td>
+                      <td class="event-col--location">노포 차량기지</td>
+                    </tr>
+
+                    <!-- 5 -->
+                    <tr class="event-row">
+                      <td class="event-col--status">
+                        <span class="event-badge event-badge--danger"
+                          >긴급</span
+                        >
+                      </td>
+                      <td class="event-col--type">
+                        <img
+                          src="img/icon_vibe_sensor.svg"
+                          class="event-icon"
+                          alt=""
+                        />
+                        진동
+                      </td>
+                      <td class="event-col--sensor">VIB-02224</td>
+                      <td class="event-col--value">grms_z 0.85 (thr 0.70)</td>
+                      <td class="event-col--time">2025.11.09 - 12:00:03</td>
+                      <td class="event-col--location">노포 차량기지</td>
+                    </tr>
+
+                    <!-- 6 -->
+                    <tr class="event-row">
+                      <td class="event-col--status">
+                        <span class="event-badge event-badge--warning"
+                          >주의</span
+                        >
+                      </td>
+                      <td class="event-col--type">
+                        <img
+                          src="img/icon_temp_sensor.svg"
+                          class="event-icon"
+                          alt=""
+                        />
+                        온도
+                      </td>
+                      <td class="event-col--sensor">TEMP-00606</td>
+                      <td class="event-col--value">15% (thr 0.70)</td>
+                      <td class="event-col--time">2025.11.08 - 09:31:07</td>
+                      <td class="event-col--location">노포 차량기지</td>
+                    </tr>
+
+                    <!-- 7 -->
+                    <tr class="event-row">
+                      <td class="event-col--status">
+                        <span class="event-badge event-badge--caution"
+                          >경고</span
+                        >
+                      </td>
+                      <td class="event-col--type">
+                        <img
+                          src="img/icon_rssi_sensor.svg"
+                          class="event-icon"
+                          alt=""
+                        />
+                        RSSI
+                      </td>
+                      <td class="event-col--sensor">VIB-02221</td>
+                      <td class="event-col--value">68°C (thr 0.70)</td>
+                      <td class="event-col--time">2025.11.02 - 03:00:03</td>
+                      <td class="event-col--location">노포 차량기지</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+  <script src="js/script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+</html>

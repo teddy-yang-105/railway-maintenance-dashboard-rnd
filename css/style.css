@@ -1,0 +1,2320 @@
+@font-face {
+  font-family: "Pretendard Variable";
+  font-weight: 1 999;
+  font-style: normal;
+  font-display: swap;
+  src: url("/font/PretendardVariable.woff2") format("woff2-variations");
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: rgba(148, 163, 184, 0.8) transparent;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: "Pretendard Variable", sans-serif;
+  display: flex;
+  flex-direction: column;
+  background: #f5f7fb;
+  color: #111827;
+  overflow: hidden; /* 바깥쪽 스크롤 금지 */
+}
+
+/* ===============================
+   전역(Global) 스크롤바 스타일
+   =============================== */
+
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(148, 163, 184, 0.8); /* slate-400 ~ slate-500 계열 */
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-track {
+  display: none;
+}
+
+/* 스크롤바 위/아래 화살표 제거 */
+::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* 상단 헤더 */
+
+.no-padding {
+  padding: unset !important;
+}
+
+.no-lr-padding {
+  padding-left: unset !important;
+  padding-right: unset !important;
+}
+
+.no-padding-top {
+  padding-top: unset !important;
+}
+
+.no-bg {
+  background: unset !important;
+}
+
+.no-shadow {
+  box-shadow: none !important;
+}
+
+.no-radius {
+  border-bottom-left-radius: 0% !important;
+  border-bottom-right-radius: 0% !important;
+}
+
+.bottom-no-padding {
+  padding-bottom: unset !important;
+}
+
+.no-margin {
+  margin: unset !important;
+}
+
+.no-width {
+  width: unset !important;
+}
+
+.f_14 {
+  font-size: 14px !important;
+}
+
+.add-padding {
+  padding: 16px 18px 7px !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+/* 헤더 레이아웃 수정 */
+.app-header {
+  flex: 0 0 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background: #ffffff;
+  /* border-bottom: 1px solid #e5e7eb; */
+  gap: 24px;
+}
+
+.app-user {
+  width: 42px;
+  height: 42px;
+}
+
+.app-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.app-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.app-title-logo {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  /* background: #10b981; */
+}
+
+.app-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.app-time {
+  text-align: center;
+  line-height: 1;
+}
+
+.app-time > div:nth-child(1) {
+  font-weight: 400;
+  font-size: 16px;
+  color: #b 3b8c2;
+}
+
+.app-time > div:nth-child(2) {
+  font-weight: 600;
+  font-size: 22px;
+}
+
+.app-user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: #d1d5db;
+}
+
+.hr {
+  height: 1px;
+  background: #e5e7eb;
+  width: 97%;
+  margin: auto;
+}
+
+/* GNB 영역 - 중앙 */
+.app-header-gnb {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+}
+
+.gnb-tabs {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 10px;
+  background: #eaedf0;
+  gap: 4px;
+}
+
+/* 헤더 아래의 2열 필터바 */
+.sub-toolbar {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* margin-top: 8px; */
+  padding: 0 24px;
+  height: 56px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.sub-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.last-update {
+  text-align: right;
+  position: relative;
+  right: -8px;
+}
+
+.sub-select {
+  /* min-width: 260px; */
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  font-size: 14px;
+  color: #111827;
+}
+
+.sub-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 16px;
+  color: #6b7280;
+}
+
+.refresh-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.refresh-btn img {
+  width: 18px;
+  height: 18px;
+}
+
+/* 기본(OFF) 상태 */
+.live-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: #d1d5db; /* 회색 */
+  color: #111827;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+/* ON 상태 */
+.live-btn.is-live {
+  background: #22c55e; /* 녹색 */
+  color: #ffffff;
+}
+
+.range-bar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0 8px;
+  height: 40px;
+  border: 1px solid #e2e4ea;
+  border-radius: 8px;
+  background-color: #ffffff;
+  font-family: inherit;
+  font-size: 14px;
+  color: #111827;
+}
+
+.range-bar button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+}
+
+.range-bar button img:hover {
+  transform: scale(1.16);
+}
+
+.rb-arrow {
+  width: 30px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+}
+
+/* 기존 .rb-range 스타일을 아래처럼 조정 */
+.rb-range {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0 37px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* 시작/종료 버튼 */
+.rb-range-part {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  padding: 2px 6px;
+  border-radius: 8px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  width: 120px;
+}
+
+.rb-range-time {
+  font-size: 14px;
+  color: #000;
+}
+
+.rb-range-separator {
+  margin: 0 2px;
+  color: #6b7280;
+}
+
+/* 숨겨진 datetime-local */
+.rb-range-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+}
+
+.rb-divider {
+  width: 1px;
+  align-self: stretch;
+  background-color: #e5e7eb;
+  margin: 0 4px;
+}
+
+/* 기간 버튼 */
+.rb-period {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.rb-period button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+}
+
+/* 기간 버튼 */
+.rb-period .rb-period-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  height: 32px;
+
+  background-color: #2d3748; /* 캡처 톤과 유사한 딥그레이 */
+  border-radius: 8px; /* 캡처처럼 라운드 */
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  position: relative;
+  left: -30px;
+
+  width: 80px;
+  height: 32px;
+  justify-content: center;
+}
+
+/* 체크 아이콘 */
+.rb-period-icon {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  /* border: 2px solid #ffffff; 얇은 테두리 */
+  position: relative;
+  display: none;
+}
+
+.rb-period-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px 6px 12px;
+  background-color: #2f3a4a; /* 첫 이미지 배경색 계열 */
+  color: #ffffff;
+  font-size: 14px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+}
+
+.rb-period-btn .rb-period-icon {
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+}
+
+/* 체크 표시(√) */
+.rb-period-icon::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  transform: rotate(45deg);
+}
+
+.rb-caret {
+  font-size: 10px;
+}
+
+/* 드롭다운 메뉴 */
+.rb-period-menu {
+  position: absolute;
+  top: 120%;
+  right: 0;
+  min-width: 100px;
+  margin: -5px 24px 0;
+  padding: 4px 0;
+  list-style: none;
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+  font-size: 13px;
+  display: none;
+  z-index: 30;
+}
+
+.rb-period-menu.open {
+  display: block;
+}
+
+.rb-period-menu li {
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.rb-period-menu li:hover {
+  background-color: #f3f4f6;
+}
+
+/* 캘린더 버튼 */
+.rb-calendar {
+  width: 40px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.rb-calendar-icon {
+  font-size: 18px;
+}
+
+/* 숨긴 date input */
+.rb-date-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 탭 버튼 */
+.gnb-tab {
+  min-width: 90px;
+  padding: 8px 18px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+.gnb-tab.active {
+  background: #ffffff;
+  border-color: #e5e7eb;
+  color: #111827;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.15);
+}
+
+/* 메인 영역 */
+
+.app-main {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 24px 24px;
+  gap: 12px;
+  min-height: 0; /* 자식에서 높이 계산 가능하도록 */
+}
+
+/* 상단 필터 바 */
+
+.select {
+  min-width: 260px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  font-size: 13px;
+  color: #111827;
+}
+
+.toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-chip {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  font-size: 12px;
+  color: #374151;
+  cursor: pointer;
+}
+
+.filter-chip.active {
+  border-color: #111827;
+  color: #111827;
+  font-weight: 500;
+}
+
+.live-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: #16a34a;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.live-indicator::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #22c55e;
+}
+
+/* 카드 레이아웃 (2x2) */
+
+.content-grid {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.content-row {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  gap: 12px;
+}
+
+.card {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 0;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
+  display: flex;
+  flex-direction: column;
+  padding: 16px 18px 14px;
+  gap: 8px;
+}
+
+/* 온라인 · 알람 · 오프라인 표시 */
+
+.online-check {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.online-check-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.oc-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+/* 색상 정의 — 캡쳐 스타일 그대로 */
+.oc-online {
+  background-color: #22c55e; /* 초록 */
+}
+
+.oc-alarm {
+  background-color: #ef4444; /* 빨강 */
+}
+
+.oc-offline {
+  background-color: #d1d5db; /* 연회색 */
+}
+
+.card-header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 3px;
+  /* padding: 16px 18px 14px; */
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.card-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  /* border-radius: 12px;
+  background: #fafbff; */
+  padding: 0px 14px;
+  overflow: auto; /* 각 섹션 내부 스크롤 */
+}
+
+/*  상태 카드 전용 테이블 레이아웃  */
+
+/* 카드 자체는 column flex */
+.state-card {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 카드 바디가 카드 내부에서 높이를 꽉 채우도록! */
+.state-card .card-body {
+  flex: 1 1 auto; /* 이게 있어야 헤더 위치가 고정 */
+  min-height: 0; /* 자식 스크롤 영역 계산을 위해 필요 */
+  padding: 0;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 상태 테이블 전체 */
+.state-table {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+/* 헤더: 높이만 차지, 스크롤 없음 */
+.state-table-head {
+  /* padding: 8px 24px; */
+}
+
+/* 상태 카드: 상태 섹션 스크롤 항상 사용 + 스크롤바 보이게 */
+.state-card .state-table-body {
+  overflow-y: auto !important; /* JS/기존 CSS 모두 무시하고 세로 스크롤 */
+}
+
+/* 크롬/엣지 등 WebKit 계열 스크롤바 다시 보이게 */
+.state-card .state-table-body::-webkit-scrollbar {
+  width: 8px !important; /* 0 → 8px로 변경 */
+  height: 8px;
+}
+
+.state-card .state-table-body::-webkit-scrollbar-thumb {
+  background-color: rgba(148, 163, 184, 0.8); /* #94a3b8 대충 슬레이트색 계열 */
+  border-radius: 999px;
+}
+
+.state-card .state-table-body::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* 행 공통 */
+.state-row {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  border-bottom: 1px solid #f3f4f6;
+  padding: 6px 0;
+  column-gap: 0;
+  white-space: nowrap;
+}
+
+/* 헤더 행 공통 */
+.state-row.header {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  border-bottom-color: #e5e7eb;
+}
+
+/* 헤더 컬럼에 파이프용 위치 지정 */
+.state-row.header .state-col {
+  position: relative;
+}
+
+/* 토글 칼럼은 제외하고 나머지에 파이프 표시 */
+.state-row.header .state-col:not(.state-col--toggle):not(:first-child) {
+  padding-left: 12px; /* 파이프와 텍스트 간격 */
+  justify-content: center;
+  text-align: center;
+}
+
+/* 실제 파이프(세로 라인) */
+.state-row.header .state-col:not(.state-col--toggle):not(:first-child)::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 14px;
+  background: #e5e7eb;
+}
+
+/* 컬럼 정렬 – 헤더/바디 같이 적용되도록 */
+.state-col--kit {
+  flex: 1 1 220px;
+  min-width: 220px;
+  /* 기본 좌측 정렬 그대로 */
+}
+
+.state-col--gateway,
+.state-col--sensor-type,
+.state-col--battery,
+.state-col--rssi,
+.state-col--last-seen,
+.state-col--location {
+  text-align: center; /* 헤더/바디 둘 다 가운데 정렬 */
+}
+
+.state-col--sensor-type img {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+}
+
+/* 그룹행(KIT) / 자식행(센서) 구분 */
+.state-row.group {
+  background: #ffffff;
+}
+.state-row.child {
+  background: #fbfcff;
+}
+
+/* 컬럼 공통 */
+.state-col {
+  padding-right: 8px;
+  padding-left: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+/* 각 컬럼 폭/최소폭 – 헤더/바디 모두 동일 구조 */
+.state-col--toggle {
+  flex: 0 0 32px;
+  min-width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.state-col--status {
+  flex: 0 0 52px;
+  min-width: 52px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+}
+
+.state-col--kit {
+  flex: 1 1 220px;
+  min-width: 200px;
+  text-align: left;
+}
+
+.state-col--gateway {
+  flex: 0 0 160px;
+  min-width: 160px;
+  text-align: center;
+}
+
+.state-col--sensor-type {
+  flex: 0 0 120px;
+  min-width: 100px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.state-col--battery {
+  flex: 0 0 170px;
+  min-width: 150px;
+
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.state-col--rssi {
+  flex: 0 0 160px;
+  min-width: 160px;
+}
+
+.state-col--last-seen {
+  flex: 0 0 190px;
+  min-width: 160px;
+}
+
+.state-col--location {
+  flex: 0 0 190px;
+  min-width: 160px;
+}
+
+.state-col--action {
+  flex: 0 0 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 화살표 토글 버튼 */
+.state-toggle-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  color: #9ca3af;
+  transition: transform 0.15s ease;
+}
+
+/* 화살표 회전 효과 (선택 사항) */
+
+.state-row.group .state-toggle-btn {
+  transform: rotate(90deg);
+}
+
+.state-row.group.is-open .state-toggle-btn {
+  transform: rotate(180deg);
+}
+
+/* 상태 점 */
+/* 공통 스타일 */
+.status-dot {
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Danger (위험) 기본값 */
+.status-dot--danger {
+  background-image: url("/img/status-danger.svg");
+}
+
+/* Online (정상) */
+.status-dot--online {
+  background-image: url("/img/status-ok.svg");
+}
+
+/* 배터리 표시 */
+.battery-bar {
+  position: relative;
+  width: 110px;
+  height: 8px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  overflow: hidden;
+}
+
+/* 그룹행: 최저(빨강) + 최고(초록) */
+.battery-min,
+.battery-max {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-radius: 999px;
+}
+
+/*최소-최대*/
+.battery-min {
+  background-color: #ef4444;
+  z-index: 2;
+}
+.battery-max {
+  background-color: #22c55e;
+  z-index: 1;
+}
+
+/* 자식행: 현재 잔량 */
+.battery-current {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background-color: #22c55e;
+  border-radius: inherit;
+}
+
+.battery-text {
+  font-size: 12px;
+  color: #4b5563;
+}
+
+.battery-group {
+  position: relative;
+  height: 8px;
+  background: #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* RSSI 배지 */
+.badge-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 11px;
+  font-weight: 500;
+}
+.badge-pill--weak {
+  background: #fee2e2 !important;
+  color: #b91c1c !important;
+}
+
+/* 자식 행 안쪽 카메라 버튼 */
+.icon-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: none;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* 그룹 아래 자식 리스트 접기/펼치기 */
+.state-subrows {
+  display: none;
+}
+.state-subrows.is-open {
+  display: block;
+}
+
+.badge-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.battery-text {
+  font-size: 12px;
+  color: #4b5563;
+}
+
+/* 위치 / 취약 센서 / 최근 이벤트 카드 내용은 일단 플레이스홀더 */
+
+.placeholder {
+  height: 100%;
+  border-radius: 12px;
+  border: 1px dashed #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: #9ca3af;
+  background: #fafbff;
+}
+
+/* 반응형 (폭이 너무 좁을 때는 최소폭 유지) */
+/* @media (max-width: 1440px) {
+  .select {
+    min-width: 220px;
+  }
+} */
+
+/* 첫 번째 row의 카드 비율 조정 (왼쪽:오른쪽 = 1:3) */
+.content-row:first-child > .card {
+  flex: 1 1 0;
+}
+
+.content-row:first-child > .state-card {
+  flex: 3 1 0;
+}
+
+/* 두 번째 content-row 기준 */
+.content-row:nth-child(2) > .card:nth-child(1) {
+  /* 왼쪽 */
+  flex: 1 1 0;
+}
+
+.content-row:nth-child(2) > .card:nth-child(2) {
+  /* 오른쪽 */
+  flex: 3 1 0;
+}
+
+/* 카드 헤더 우측 토글칩 컨테이너 */
+.card-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 토글 칩 버튼 */
+.card-toggle-chip {
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  font-size: 12px;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease,
+    border-color 0.15s ease;
+}
+
+/* on 상태 */
+.card-toggle-chip.is-on {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #4b5563;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12);
+}
+
+/* @media (max-width: 1919px) {
+  .state-card .card-body {
+    flex-direction: column !important;
+  }
+} */
+
+/* ===========================
+   취약 센서 정보 섹션
+   =========================== */
+
+/* 카드 안에서 세로 공간을 어느 정도 차지하도록 */
+.weak-section {
+  /* card-body의 높이를 기준으로 100% 채우기 */
+  height: 100%;
+  display: flex; /* 안쪽 weak-section-columns를 가운데 배치하기 위해 */
+  padding: 8px 0 16px;
+}
+
+/* 제목(“취약 센서 정보”)은 카드 공통 헤더에서 처리하므로 별도 사용 X */
+.weak-section-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+/* 좌/우 두 컬럼 */
+.weak-section-columns {
+  display: flex;
+  gap: 24px;
+  width: 100%;
+  /* 카드가 세로로 클 때, 내용을 카드 안에서 위·아래 중간 정도에 오게 */
+  margin: auto 0;
+}
+
+.weak-column {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* 컬럼 타이틀 */
+.weak-column-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 6px;
+  padding-left: 7px;
+  position: relative;
+  top: -10px;
+}
+
+.weak-column--battery .weak-sensor-item {
+  margin-bottom: 7px;
+}
+
+/* 한 줄(넘버 + 카드) */
+.weak-sensor-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+/* 왼쪽 순위 번호 */
+.weak-sensor-rank {
+  min-width: 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.2;
+  padding-left: 7px;
+}
+
+/* 우측 카드 전체 */
+.weak-sensor-card {
+  flex: 1 1 auto;
+}
+
+/* 상단 : 센서ID / 값 */
+.weak-sensor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1px;
+}
+
+.weak-column--rssi .weak-sensor-header {
+  margin-bottom: 5px;
+}
+
+.weak-sensor-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4b5563;
+}
+
+/* 아이콘 placeholder */
+.weak-sensor-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background: #e5e7eb;
+}
+
+/* 오른쪽 값 텍스트 */
+.weak-sensor-value {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* 상태별 색상 */
+.weak-sensor-value--danger,
+.weak-sensor-status--danger {
+  color: #ef4444;
+}
+.sensor-danger {
+  font-size: 12px;
+  background-color: #fee2e2;
+  border-radius: 99px;
+  padding: 3px 3px 3px 3px;
+  font-weight: 400;
+}
+
+.weak-sensor-value--warning,
+.weak-sensor-status--warning {
+  color: #f97316;
+}
+
+.sensor-warning {
+  font-size: 12px;
+  background-color: #fff5eb;
+  border-radius: 99px;
+  padding: 5px;
+  font-weight: 400;
+}
+
+.weak-sensor-value--normal,
+.weak-sensor-status--normal {
+  color: #000;
+}
+
+.sensor-normal {
+  font-size: 12px;
+  background-color: #ecfdf3;
+  border-radius: 99px;
+  padding: 5px;
+  font-weight: 400;
+}
+
+.weak-column--rssi .sensor-normal {
+  color: #17b26a;
+}
+
+.weak-column--rssi .sensor-danger {
+  color: #ef4444;
+}
+
+.weak-column--rssi .sensor-warning {
+  color: #f77809;
+}
+
+/* 중단 : 게이지 바 */
+.weak-sensor-gauge {
+  margin-bottom: 4px;
+}
+
+.weak-sensor-gauge-bar {
+  position: relative;
+  width: 100%;
+  height: 12px;
+  background-color: #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+/* 실제 채워지는 부분 */
+.weak-sensor-gauge-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: 999px;
+}
+
+/* 상태별 게이지 색 */
+.weak-sensor-gauge-fill--danger {
+  background-color: #ef4444;
+}
+.weak-sensor-gauge-fill--warning {
+  background-color: #f97316;
+}
+.weak-sensor-gauge-fill--normal {
+  background-color: #10b981;
+}
+
+/* 기준선 (회색 세로선, left%로 위치 조절) */
+.weak-sensor-gauge-threshold {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: #000;
+}
+
+/* 하단 : 상태 / 기준 텍스트 */
+.weak-sensor-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px;
+  font-size: 12px;
+}
+
+.weak-sensor-status {
+  font-weight: 600;
+}
+
+.weak-sensor-baseline {
+  color: #6b7280;
+}
+
+.weak-sensor-baseline-value {
+  font-weight: 600;
+}
+
+/* 해상도 좁아지면 위/아래로 쌓기 */
+/* @media (max-width: 1280px) {
+  .weak-section-columns {
+    flex-direction: column;
+  }
+} */
+
+/* ==========================
+   최근 이벤트 리스트
+========================== */
+
+.event-card .card-body {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.event-table-wrapper {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto; /* 여기에서만 스크롤 */
+}
+
+/* 테이블 기본 */
+.event-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 13px;
+  background: #ffffff; /* 전체 흰 배경 */
+}
+
+/* 헤더 고정 + 파이프 */
+.event-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: #ffffff; /* 캡쳐처럼 배경 없음(흰색) */
+  padding: 10px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* 헤더 컬럼 사이 | 파이프 */
+.event-table thead th + th::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 14px;
+  background: #e5e7eb;
+}
+
+/* 바디 행 */
+.event-table tbody tr.event-row {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.event-table tbody td {
+  padding: 10px 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 컬럼 폭/정렬 */
+.event-col--status {
+  width: 70px;
+  text-align: center;
+}
+.event-col--type {
+  width: 120px;
+}
+.event-col--sensor {
+  width: 140px;
+}
+.event-col--value {
+  width: 260px;
+}
+.event-col--time {
+  width: 190px;
+}
+.event-col--location {
+  width: 160px;
+}
+
+/* 타입 아이콘 */
+.event-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+/* 상태 배지 */
+.event-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.event-badge--danger {
+  background: #ef4444;
+} /* 긴급 */
+.event-badge--warning {
+  background: #f97316;
+} /* 주의 */
+.event-badge--caution {
+  background: #facc15;
+} /* 경고 */
+
+/* ==========================
+   위치 카드 - 네이버 지도
+========================== */
+
+.location-card .card-body {
+  padding: 0; /* 좌우 10px 패딩 제거해서 꽉 차게 */
+  overflow: hidden; /* 안에서 스크롤 안 생기도록 */
+}
+
+.location-map {
+  width: 100%;
+  height: 100%;
+  min-height: 260px; /* 혹시 높이 너무 작을 때 대비용 */
+  /* border-radius: 12px;  */
+}
+
+/* ==========================
+   위치 카드 - 커스텀 마커 & 팝업
+========================== */
+
+/* 마커 래퍼 (필요하면 그림자 등 추가 가능) */
+.location-marker {
+  width: 40px;
+  height: 46px;
+  transform: translateY(-2px);
+}
+
+.location-marker img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* 지도 팝업(커스텀 오버레이) */
+.map-popup {
+  position: relative;
+  transform: translateY(-8px); /* 마커보다 살짝 위 */
+}
+
+.map-popup-inner {
+  width: 350px;
+  /* height: 480px; */
+  max-height: 480px; /* 필요하면 상한만 걸어두고, 아니면 이것도 제거 가능 */
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.25);
+  padding: 9px 11px 11px;
+  font-size: 13px;
+  color: #111827;
+  box-sizing: border-box;
+}
+
+/* 상단 헤더 */
+.map-popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.map-popup-kit-label {
+  font-size: 10px;
+  color: #9ca3af;
+  margin-bottom: 4px;
+}
+
+.map-popup-kit-id {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.map-popup-close {
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  color: #6b7280;
+  position: relative;
+  right: -10px;
+  top: 9px;
+}
+
+/* 정보 라인 리스트 */
+.map-popup-info {
+  margin-bottom: 12px;
+}
+
+.map-popup-row {
+  display: flex;
+  align-items: center;
+  padding: 7px 0;
+  font-size: 13px;
+}
+
+.map-popup-row-label {
+  flex: 0 0 122px;
+  color: #4a5260;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.map-popup-row-divider {
+  flex: 0 0 1px;
+  height: 14px;
+  background: #e5e7eb;
+  margin: 0 10px;
+}
+
+.map-popup-row-value {
+  flex: 1 1 auto;
+  text-align: right;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* 간단한 그래프 플레이스홀더 라인 */
+.map-popup-graph-block {
+  margin: 10px 0;
+}
+
+.map-popup-graph-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.map-popup-graph-bar {
+  width: 100%;
+  height: 2px;
+  border-radius: 999px;
+  background: #10b981;
+}
+
+.map-popup-graph-rssi {
+  width: 100%;
+  height: 50px;
+  border-radius: 8px;
+  border: 1px dashed #f97316;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: #f97316;
+}
+
+/* 하단 버튼 */
+.map-popup-footer {
+  margin-top: 14px;
+}
+
+.map-popup-button {
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 0;
+  background: #f97316;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.map-popup-graph-bar {
+  width: 100%;
+  height: 40px; /* 2px → 40px 정도로 */
+  border-radius: 8px;
+  background: transparent; /* 기존 배경은 제거(차트가 그릴 거라) */
+}
+
+/* RSSI도 필요하면 이렇게 정리 */
+.map-popup-graph-rssi {
+  width: 100%;
+  height: 50px;
+  border-radius: 8px;
+  border: none; /* 점선 테두리 필요 없으면 제거 */
+}
+
+/* ==========================
+   Assets 페이지 레이아웃
+   ========================== */
+
+.trains {
+  position: relative;
+  width: 100%;
+  height: 260px; /* 원하는 높이 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.train-zone {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 100%;
+  background-image: url("../img/back-trains.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  pointer-events: none;
+}
+
+.train-car--tc1 {
+  position: absolute;
+  top: 50%;
+  left: 10%; /* ← 정확하게 TC1이 위치할 좌표 */
+  transform: translateY(-50%);
+  width: 38%; /* 적절한 크기 조정 */
+  height: 70%;
+  background-image: url("../img/TC1_back.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.train-car--m1 {
+  position: absolute;
+  top: 50%;
+  right: 10%; /* ← M1 위치 */
+  transform: translateY(-50%);
+  width: 38%;
+  height: 70%;
+  background-image: url("../img/M1_back.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+/* 열차 들어가는 영역 */
+.train-map {
+  position: relative;
+  width: 100%;
+  max-width: 1878px; /* 이미지 실제 가로 사이즈 */
+  margin: 0 auto; /* 가운데 정렬 */
+  overflow: hidden; /* 혹시라도 살짝 넘치는 건 잘라버림 */
+}
+
+/* 배경 이미지 */
+.train-bg {
+  width: 100%; /* 컨테이너 안에서만 100% */
+  height: auto;
+  display: block; /* inline 이미지 여백 제거 */
+}
+.train-overlay {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  height: auto;
+}
+
+/* 예시 값: 실제 위치 맞춰서 조정만 해주시면 됩니다 */
+.train-overlay--tc1 {
+  top: 47%; /* 세로 가운데 기준 */
+  left: 28%; /* back-trains 상에서 TC1 중앙이 오는 지점(%) */
+  width: 30%; /* TC1 크기 비율 */
+}
+
+.train-overlay--m1 {
+  top: 47%;
+  left: 72%; /* M1 중앙 */
+  width: 30%;
+}
+
+/* 공통 센서칩 기본 스타일 (기존 + 약간 수정) */
+.sensor-chip {
+  position: absolute;
+  top: calc(var(--y) * 1%);
+  left: calc(var(--x) * 1%);
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  background-color: #ffffff; */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 32px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 0;
+}
+
+.sensor-chip {
+  position: absolute;
+  z-index: 10; /* 기본 */
+}
+
+.sensor-chip:hover {
+  z-index: 9999 !important; /* 툴팁 뜰 때 맨 위 */
+}
+
+/* 타입별 기본 아이콘 (비-hover 상태) */
+.sensor-chip--vib {
+  background-image: url("/img/icon_sensor_vib.svg");
+}
+
+.sensor-chip--temp {
+  background-image: url("/img/icon_sensor_temp.svg");
+}
+
+/* 타입별 hover 시 배경 SVG 교체 (파일명은 실제 리소스에 맞게 수정) */
+.sensor-chip--vib:hover {
+  background-image: url("/img/icon_sensor_vib_hover.svg");
+}
+
+.sensor-chip--temp:hover {
+  background-image: url("/img/icon_sensor_temp_hover.svg");
+}
+
+/* 툴팁 기본: 숨김 상태 */
+/* 툴팁 공통 (기존) */
+.sensor-tooltip {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + -13px);
+  transform: translate(-50%, 0px);
+  opacity: 0;
+  visibility: hidden;
+  min-width: 204px;
+  height: 198px;
+  font-size: 11px;
+  line-height: 1.4;
+  z-index: 10000;
+}
+
+/* 진동 / 온도 타입별 배경 (이미 적용하셨다면 그대로 사용) */
+.sensor-chip--vib .sensor-tooltip {
+  background: url("/img/tooltip_vib.svg") no-repeat center / 100% 100%;
+}
+
+.sensor-chip--temp .sensor-tooltip {
+  background: url("/img/tooltip_temp.svg") no-repeat center / 100% 100%;
+}
+
+/* ▼ 뒤집힌(위꼬리) 툴팁 배경 */
+.sensor-chip--vib.sensor-chip--reverse .sensor-tooltip {
+  background: url("/img/tooltip_vib_reverse.svg") no-repeat center / 100% 100%;
+}
+
+.sensor-chip--temp.sensor-chip--reverse .sensor-tooltip {
+  background: url("/img/tooltip_temp_reverse.svg") no-repeat center / 100% 100%;
+}
+
+/* 내부 내용 박스 – SVG 안쪽 패딩 잡아주는 용도 */
+.sensor-tooltip-content {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 32px 26px 16px 26px; /* 좌우/상하 여백은 필요에 따라 조정 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ------------------------------
+    reverse 클래스 적용 시
+      → 위로 반대로 출력되는 버전
+------------------------------- */
+.sensor-chip.sensor-chip--reverse .sensor-tooltip {
+  top: calc(100% + -216px); /* 요청하신 값 그대로 적용 */
+}
+
+/* reverse 때는 padding 변경 */
+.sensor-chip.sensor-chip--reverse .sensor-tooltip-content {
+  padding: 0px 26px 16px 26px !important;
+}
+
+/* ------------------------------
+   3) 타입별 reverse 배경 이미지
+------------------------------- */
+
+/* 진동 센서 뒤집힌 버전 */
+.sensor-chip--vib.sensor-chip--reverse .sensor-tooltip {
+  background: url("/img/tooltip_vib_reverse.svg") no-repeat center / 100% 100%;
+}
+
+/* 온도 센서 뒤집힌 버전 */
+.sensor-chip--temp.sensor-chip--reverse .sensor-tooltip {
+  background: url("/img/tooltip_temp_reverse.svg") no-repeat center / 100% 100%;
+}
+
+/* ---------------------------------------------------
+   우측 오픈 전용 - sensor-chip--right
+--------------------------------------------------- */
+
+/* 기본: 툴팁은 센서 왼쪽(-50%, 0)에서 뜨는 구조라면
+   우측 전개는 반대로 (+50%, 0)로 이동하도록 변경 */
+.sensor-chip--right .sensor-tooltip {
+  left: 360%;
+  top: -260%;
+  transform: translateY(-50%) translateX(12px);
+}
+
+/* Hover 시 애니메이션 포함 */
+.sensor-chip--right:hover .sensor-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%) translateX(0px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+/* 툴팁 콘텐츠 크기에 따라 자동 조절 */
+.sensor-chip--right .sensor-tooltip-content {
+  padding: 16px 27px 16px 44px;
+}
+
+/* 배경 이미지가 필요한 경우 (진동 / 온도에 따라 다르게) */
+.sensor-chip--vib.sensor-chip--right .sensor-tooltip {
+  background: url(/img/tooltip_vib_right.svg) no-repeat center / 100% 100%;
+}
+
+.sensor-chip--temp.sensor-chip--right .sensor-tooltip {
+  background: url(/img/tooltip_temp_right.svg) no-repeat center / 100% 100%;
+}
+
+/* 한 줄 */
+.sensor-tooltip-row {
+  display: flex;
+  align-items: center;
+  font-size: 11px;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.sensor-tooltip-content .sensor-tooltip-row:nth-of-type(5) {
+  /* word-spacing: -2px; */
+  /* letter-spacing: -1px; '최근 수신' 줄 글자 간격 좁히기 */
+}
+
+/* 마지막 줄은 마진 제거 */
+.sensor-tooltip-row:last-child {
+  margin-bottom: 0;
+}
+
+/* 왼쪽 라벨 */
+.sensor-tooltip-label {
+  flex: 0 0 40px; /* 라벨 폭 (센서ID, 타입 등) */
+  color: #6b7280;
+}
+
+/* 가운데 세로 구분선 (파이프 느낌) */
+.sensor-tooltip-divider {
+  flex: 0 0 1px;
+  height: 14px;
+  background: #e5e7eb;
+  margin: 0 10px;
+}
+
+/* 오른쪽 값 */
+.sensor-tooltip-value {
+  flex: 1 1 auto;
+  text-align: right;
+  color: #111827;
+}
+
+/* 강조하고 싶은 값 (센서ID, 최근수신 등) */
+.sensor-tooltip-value--strong {
+  font-weight: 600;
+}
+
+/* 진동 센서용 툴팁 배경 */
+.sensor-chip--vib .sensor-tooltip {
+  background: url("/img/tooltip_vib.svg") no-repeat center / 100% 100%;
+}
+
+/* 온도 센서용 툴팁 배경 */
+.sensor-chip--temp .sensor-tooltip {
+  background: url("/img/tooltip_temp.svg") no-repeat center / 100% 100%;
+}
+
+/* 내부 텍스트 스타일 */
+.sensor-tooltip-title {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.sensor-tooltip-meta {
+  display: block;
+  opacity: 0.85;
+}
+
+/* hover 시 툴팁 노출 + 살짝 위로 올리기 */
+.sensor-chip:hover .sensor-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.train-legend {
+  position: absolute;
+  right: 4%;
+  top: 46%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  z-index: 10;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  color: #374151;
+  font-weight: 500;
+}
+
+.assets-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+}
+
+.assets-row {
+  flex: 0 0 auto;
+}
+
+.assets-row--train {
+  /* 상단 열차 */
+}
+
+.assets-row--main {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  gap: 12px;
+}
+
+.assets-row--metrics {
+  flex: 0 0 auto;
+}
+
+/* 센서 목록 카드 / 차트 카드 비율 */
+.sensor-list-card {
+  flex: 1 1 0;
+}
+.sensor-chart-card {
+  flex: 1.2 1 0;
+}
+
+/* 센서 목록 테이블 */
+.sensor-list-body {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.sensor-table {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sensor-table-head {
+  /* padding: 6px 18px; */
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.sensor-table-head .sensor-row:hover {
+  background: transparent !important;
+}
+
+.sensor-table-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0 3px 12px;
+}
+
+/* 스크롤바 간단하게 숨김 */
+.sensor-table-body::-webkit-scrollbar {
+  width: 6px;
+}
+.sensor-table-body::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: #d1d5db;
+}
+
+.sensor-row {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.sensor-row--header {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.sensor-row:hover {
+  background: #fef2f2;
+}
+
+.sensor-col {
+  padding: 0 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 16px;
+}
+
+.sensor-col--type {
+  flex: 0 0 50px;
+}
+.sensor-col--type img {
+  width: 22px;
+  height: 22px;
+}
+.sensor-col--id {
+  flex: 1 1 160px;
+}
+.sensor-col--kind {
+  flex: 0 0 140px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.sensor-col--battery {
+  flex: 0 0 223px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sensor-col--rssi {
+  flex: 0 0 174px;
+  text-align: right;
+}
+
+/* 배터리 바 (센서 목록용) */
+.sensor-col--battery .battery-bar {
+  flex: 1 1 auto;
+  height: 8px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  overflow: hidden;
+}
+.sensor-col--battery .battery-bar-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: #22c55e;
+}
+.sensor-col--battery .battery-label {
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.sensor-table-head .sensor-row--header .sensor-col {
+  position: relative;
+  padding-right: 12px;
+  text-align: center;
+  justify-content: center;
+}
+
+.sensor-table-head .sensor-row--header .sensor-col:not(:last-child)::after {
+  content: "|";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #d1d5db;
+  font-size: 12px;
+}
+
+/* RSSI 배지 */
+.rssi-value {
+  font-size: 14px;
+  margin-right: 6px;
+}
+.rssi-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #dcfce7;
+  font-size: 11px;
+  color: #166534;
+}
+.rssi-badge--weak {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+.rssi-badge--good {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+/* 차트 카드 */
+.sensor-chart-body {
+  padding: 4px 4px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+}
+
+.chart-block {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-title {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 4px 8px;
+}
+
+.sensor-chart {
+  flex: 1 1 auto;
+  min-height: 80px;
+}
+
+/* 차트 상단 버튼 */
+.chart-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chart-actions img {
+  cursor: pointer;
+}
+
+/* Metrics 카드 */
+.metrics-card {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.metrics-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0px 10px;
+}
+
+.metrics-inner .innerWrap {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.innerWrap .metrics-chips {
+  position: relative;
+  padding-right: 16px; /* 파이프와 간격 */
+}
+
+/* 마지막 요소에는 파이프 표시 안함 */
+.innerWrap .metrics-chips:not(:last-child)::after {
+  content: "|";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #ccc; /* 파이프 색상 */
+  font-size: 14px;
+}
+
+.metrics-title {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.metrics-chip {
+  width: 43px;
+  height: 43px;
+  /* padding: 6px 12px; */
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #717680;
+  font-family: "Pretendard Variable";
+}
+
+.metrics-chips label {
+  font-family: "Pretendard Variable";
+  font-weight: 600;
+  font-size: 16px;
+  color: #717680;
+}
+
+.metrics-chip.is-active {
+  background: #fff;
+  border-color: #f97316;
+  color: #f97316;
+}
+
+.metrics-apply-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  background: #f97316;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* 반응형 약간 조정 */
+/* @media (max-width: 1440px) {
+  .assets-row--main {
+    flex-direction: column;
+  }
+  .sensor-list-card,
+  .sensor-chart-card {
+    flex: 1 1 auto;
+  }
+} */
+
+.battery-red {
+  background-color: #ef4444 !important;
+  height: 100%;
+  border-radius: 999px;
+}
+.battery-orange {
+  background-color: #f97316 !important;
+  height: 100%;
+  border-radius: 999px;
+}
+.battery-green {
+  background-color: #10b981 !important;
+  height: 100%;
+  border-radius: 999px;
+}
+
+.map-scroll-area {
+  overflow-y: auto;
+  /* padding-right: 10px; 원하는 만큼 조절 */
+}
+
+.train-card .card-body,
+.train-map {
+  overflow: visible;
+}
