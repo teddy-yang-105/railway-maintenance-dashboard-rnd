@@ -1,0 +1,333 @@
+{
+  "line": {
+    "lineId": "BUSAN_LINE_1",
+    "nameKr": "부산 도시철도 1호선",
+    "startStationNameKr": "다대포해수욕장",
+    "endStationNameKr": "노포",
+    "upDirectionLabel": "다대포 방면 (상행)",
+    "downDirectionLabel": "노포 방면 (하행)",
+    "totalLengthKm": 40.4
+  },
+  "stations": [
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 1,
+      "stationNameKr": "다대포해수욕장",
+      "stationCode": "P01",
+      "distanceKm": 0,
+      "cumulativeKm": 0.0
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 2,
+      "stationNameKr": "다대포항",
+      "stationCode": "P02",
+      "distanceKm": 1.6,
+      "cumulativeKm": 1.6
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 3,
+      "stationNameKr": "낫개",
+      "stationCode": "P03",
+      "distanceKm": 1.3,
+      "cumulativeKm": 2.9
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 4,
+      "stationNameKr": "신장림",
+      "stationCode": "P04",
+      "distanceKm": 1.1,
+      "cumulativeKm": 3.7
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 5,
+      "stationNameKr": "장림",
+      "stationCode": "P05",
+      "distanceKm": 0.8,
+      "cumulativeKm": 4.8
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 6,
+      "stationNameKr": "동매",
+      "stationCode": "P06",
+      "distanceKm": 1.5,
+      "cumulativeKm": 6.3
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 7,
+      "stationNameKr": "신평",
+      "stationCode": "P07",
+      "distanceKm": 1.6,
+      "cumulativeKm": 7.9
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 8,
+      "stationNameKr": "하단",
+      "stationCode": "P08",
+      "distanceKm": 1.6,
+      "cumulativeKm": 9.5
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 9,
+      "stationNameKr": "당리",
+      "stationCode": "P09",
+      "distanceKm": 0.8,
+      "cumulativeKm": 10.3
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 10,
+      "stationNameKr": "사하",
+      "stationCode": "P10",
+      "distanceKm": 0.9,
+      "cumulativeKm": 11.2
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 11,
+      "stationNameKr": "괴정",
+      "stationCode": "P11",
+      "distanceKm": 0.9,
+      "cumulativeKm": 12.1
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 12,
+      "stationNameKr": "대티",
+      "stationCode": "P12",
+      "distanceKm": 0.8,
+      "cumulativeKm": 12.9
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 13,
+      "stationNameKr": "서대신",
+      "stationCode": "P13",
+      "distanceKm": 1.4,
+      "cumulativeKm": 14.3
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 14,
+      "stationNameKr": "동대신",
+      "stationCode": "P14",
+      "distanceKm": 0.7,
+      "cumulativeKm": 15.0
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 15,
+      "stationNameKr": "토성",
+      "stationCode": "P15",
+      "distanceKm": 1.2,
+      "cumulativeKm": 16.2
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 16,
+      "stationNameKr": "자갈치",
+      "stationCode": "P16",
+      "distanceKm": 1.0,
+      "cumulativeKm": 17.2
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 17,
+      "stationNameKr": "남포",
+      "stationCode": "P17",
+      "distanceKm": 0.7,
+      "cumulativeKm": 17.9
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 18,
+      "stationNameKr": "중앙",
+      "stationCode": "P18",
+      "distanceKm": 0.9,
+      "cumulativeKm": 18.8
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 19,
+      "stationNameKr": "부산역",
+      "stationCode": "P19",
+      "distanceKm": 1.1,
+      "cumulativeKm": 19.9
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 20,
+      "stationNameKr": "초량",
+      "stationCode": "P20",
+      "distanceKm": 0.8,
+      "cumulativeKm": 20.7
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 21,
+      "stationNameKr": "부산진",
+      "stationCode": "P21",
+      "distanceKm": 0.8,
+      "cumulativeKm": 21.5
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 22,
+      "stationNameKr": "좌천",
+      "stationCode": "P22",
+      "distanceKm": 1.0,
+      "cumulativeKm": 22.5
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 23,
+      "stationNameKr": "범일",
+      "stationCode": "P23",
+      "distanceKm": 0.9,
+      "cumulativeKm": 23.4
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 24,
+      "stationNameKr": "범내골",
+      "stationCode": "P24",
+      "distanceKm": 0.8,
+      "cumulativeKm": 24.2
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 25,
+      "stationNameKr": "서면",
+      "stationCode": "P25",
+      "distanceKm": 1.2,
+      "cumulativeKm": 25.4
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 26,
+      "stationNameKr": "부전",
+      "stationCode": "P26",
+      "distanceKm": 0.6,
+      "cumulativeKm": 26.0
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 27,
+      "stationNameKr": "양정",
+      "stationCode": "P27",
+      "distanceKm": 1.4,
+      "cumulativeKm": 27.4
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 28,
+      "stationNameKr": "시청",
+      "stationCode": "P28",
+      "distanceKm": 0.8,
+      "cumulativeKm": 28.2
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 29,
+      "stationNameKr": "연산",
+      "stationCode": "P29",
+      "distanceKm": 0.9,
+      "cumulativeKm": 29.1
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 30,
+      "stationNameKr": "교대",
+      "stationCode": "P30",
+      "distanceKm": 1.0,
+      "cumulativeKm": 30.1
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 31,
+      "stationNameKr": "동래",
+      "stationCode": "P31",
+      "distanceKm": 1.2,
+      "cumulativeKm": 31.3
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 32,
+      "stationNameKr": "명륜",
+      "stationCode": "P32",
+      "distanceKm": 0.8,
+      "cumulativeKm": 32.1
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 33,
+      "stationNameKr": "온천장",
+      "stationCode": "P33",
+      "distanceKm": 1.0,
+      "cumulativeKm": 33.1
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 34,
+      "stationNameKr": "부산대",
+      "stationCode": "P34",
+      "distanceKm": 1.1,
+      "cumulativeKm": 34.2
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 35,
+      "stationNameKr": "장전",
+      "stationCode": "P35",
+      "distanceKm": 1.0,
+      "cumulativeKm": 35.2
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 36,
+      "stationNameKr": "구서",
+      "stationCode": "P36",
+      "distanceKm": 1.1,
+      "cumulativeKm": 36.3
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 37,
+      "stationNameKr": "두실",
+      "stationCode": "P37",
+      "distanceKm": 1.0,
+      "cumulativeKm": 37.3
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 38,
+      "stationNameKr": "남산",
+      "stationCode": "P38",
+      "distanceKm": 1.0,
+      "cumulativeKm": 38.3
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 39,
+      "stationNameKr": "범어사",
+      "stationCode": "P39",
+      "distanceKm": 0.9,
+      "cumulativeKm": 39.2
+    },
+    {
+      "lineId": "BUSAN_LINE_1",
+      "stationSeq": 40,
+      "stationNameKr": "노포",
+      "stationCode": "P40",
+      "distanceKm": 1.2,
+      "cumulativeKm": 40.4
+    }
+  ]
+}
